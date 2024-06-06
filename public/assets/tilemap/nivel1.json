@@ -499,8 +499,8 @@
                  "type":"",
                  "visible":true,
                  "width":0,
-                 "x":180.302696969697,
-                 "y":4751.45787878788
+                 "x":180.303,
+                 "y":4751.46
                 }, 
                 {
                  "height":0,
@@ -1208,8 +1208,8 @@
                  "type":"lava",
                  "visible":true,
                  "width":32,
-                 "x":1152,
-                 "y":4480
+                 "x":1153.33,
+                 "y":4477.33
                 }, 
                 {
                  "gid":6,
@@ -2179,11 +2179,11 @@
                  "id":167,
                  "name":"",
                  "rotation":0,
-                 "type":"obstaculo",
+                 "type":"moneda",
                  "visible":true,
                  "width":0,
-                 "x":188,
-                 "y":4248
+                 "x":1072,
+                 "y":4284
                 }, 
                 {
                  "ellipse":true,
@@ -2194,8 +2194,8 @@
                  "type":"obstaculo",
                  "visible":true,
                  "width":0,
-                 "x":436,
-                 "y":3618
+                 "x":1080.67,
+                 "y":4011.33
                 }, 
                 {
                  "ellipse":true,
@@ -3201,7 +3201,7 @@
  "nextobjectid":303,
  "orientation":"orthogonal",
  "renderorder":"right-down",
- "tiledversion":"1.10.2",
+ "tiledversion":"1.10.1",
  "tileheight":32,
  "tilesets":[
         {

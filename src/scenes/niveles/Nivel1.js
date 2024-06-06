@@ -183,17 +183,44 @@ export default class Nivel1 extends Phaser.Scene {
 
         const jugadorLocal = jugador;
         jugadorLocal.puedeMoverse = false;
-        this.tweens.add({
-            targets: jugadorLocal,
-            scaleX: 0.5,
-            scaleY: 0.5,
-            duration: 1000,
-            ease: 'Linear',
+        jugador.recibirImpacto();
+        const inicioColor = Phaser.Display.Color.ValueToColor(jugadorLocal.tint);
+        const finalColor = Phaser.Display.Color.ValueToColor(0x000000);
+
+
+        this.tweens.addCounter({
+            from: 0,
+            to: 100,
+            duration: 50,
+            repeat: 1,
+            yoyo: true,
+            ease: Phaser.Math.Easing.Sine.InOut,
+            onUpdate: tween => {
+
+                const value = tween.getValue();
+                const colorObject = Phaser.Display.Color.Interpolate.ColorWithColor(inicioColor, finalColor, 100, value)
+
+                const color = Phaser.Display.Color.GetColor(colorObject.r, colorObject.g, colorObject.b)
+                jugadorLocal.setTint(color)
+            },
             onComplete: () => {
-                this.scene.stop("ui");
-                this.scene.start("PatallaGameOver");
+                jugadorLocal.clearTint();
+                jugadorLocal.puedeMoverse = true;
             }
         });
+
+
+        /* this.tweens.add({
+             targets: jugadorLocal,
+             scaleX: 0.5,
+             scaleY: 0.5,
+             duration: 1000,
+             ease: 'Linear',
+             onComplete: () => {
+                 this.scene.stop("ui");
+                 this.scene.start("PatallaGameOver");
+             }
+         }); */
     }
 
     collisionObstaculo(jugador, obstaculo) {

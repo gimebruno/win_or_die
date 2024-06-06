@@ -623,10 +623,10 @@
   <object id="163" type="lava" gid="6" x="288" y="2912" width="32" height="32"/>
   <object id="164" type="lava" gid="6" x="352" y="2912" width="32" height="32"/>
   <object id="165" type="lava" gid="6" x="320" y="2912" width="32" height="32"/>
-  <object id="167" type="obstaculo" x="1072" y="4284">
+  <object id="167" type="obstaculo" x="188" y="4248">
    <ellipse/>
   </object>
-  <object id="168" type="obstaculo" x="1080.67" y="4011.33">
+  <object id="168" type="obstaculo" x="1086.67" y="4551.33">
    <ellipse/>
   </object>
   <object id="169" type="obstaculo" x="188" y="2874">
