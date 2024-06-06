@@ -7,6 +7,7 @@ import PantallaControles from "./scenes/PantallaControles";
 import Nivel1 from "./scenes/niveles/Nivel1";
 import PatallaGameOver from "./scenes/PantallaGameOver";
 import PantallaFinRonda from "./scenes/PantallaFinRonda";
+import SeleccionAuto from "./scenes/SeleccionAuto";
 
 const config = {
   type: Phaser.AUTO,
@@ -31,7 +32,7 @@ const config = {
       debug: true,
     },
   },
-  scene: [PantallaCarga, PantallaMenuPrincipal, PantallaMenu, PantallaControles, Nivel1, UI, PatallaGameOver, PantallaFinRonda],
+  scene: [PantallaCarga, PantallaMenuPrincipal, PantallaMenu, PantallaControles, Nivel1, UI, PatallaGameOver, PantallaFinRonda, SeleccionAuto],
 };
 
 export default new Phaser.Game(config);

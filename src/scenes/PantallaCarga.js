@@ -18,6 +18,14 @@ export default class PantallaCarga extends Phaser.Scene {
         // Autos
         this.load.image('autocarrera-rojo', 'assets/sprites/autos/autocarrera-rojo.png');
         this.load.image('autocarrera-lila', 'assets/sprites/autos/autocarrera-lila.png');
+        this.load.image('auto1', 'assets/sprites/autos/auto1.png');
+        this.load.image('auto2', 'assets/sprites/autos/auto2.png');
+        this.load.image('auto3', 'assets/sprites/autos/auto3.png');
+        this.load.image('auto4', 'assets/sprites/autos/auto4.png');
+        this.load.image('auto5', 'assets/sprites/autos/auto5.png');
+        this.load.image('auto6', 'assets/sprites/autos/auto6.png');
+        this.load.image('auto7', 'assets/sprites/autos/auto7.png');
+        this.load.image('auto8', 'assets/sprites/autos/auto8.png');
 
         // Bolas de fuego
         this.load.image('bola-fuego', 'assets/sprites/bola-fuego.png');

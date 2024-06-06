@@ -6,14 +6,11 @@ import Moneda from "../../objetos/Moneda";
 import Meta from "../../objetos/Meta";
 
 export default class Nivel1 extends Phaser.Scene {
-
     ganador;
 
     jugadorIzquierdo;
 
     jugadorDerecho;
-
-
 
     tiempo;
 
@@ -43,16 +40,15 @@ export default class Nivel1 extends Phaser.Scene {
         this.vidasEquipoDerecha = 3;
         this.monedasEquipoIzquierda = 0;
         this.monedasEquipoDerecha = 0;
-
+        // this.autoJugador1 = data.autoJugador1;
+        // this.autoJugador2 = data.autoJugador2;
         this.ganador = null;
     }
-
 
     create() {
         this.map = this.make.tilemap({ key: "nivel1" });
         const tiled = this.map.addTilesetImage("atlas-lava", "atlas-lava");
         this.map.createLayer("piso", tiled);
-
         this.map.createLayer("piso", tiled);
         this.map.createLayer("decoracion", tiled);
 
@@ -60,19 +56,17 @@ export default class Nivel1 extends Phaser.Scene {
         centro.setCollisionByProperty({ collision: true });
 
         const objectsLayer = this.map.getObjectLayer("objetos");
-
         const spawnJugador1 = objectsLayer.objects.find(obj => obj.name === "jugador1");
         const spawnJugador2 = objectsLayer.objects.find(obj => obj.name === "jugador2");
-
         const todasLavas = objectsLayer.objects.filter(obj => obj.type === "lava");
         const todosObsculos = objectsLayer.objects.filter(obj => obj.type === "obstaculo");
         const todosMonedas = objectsLayer.objects.filter(obj => obj.type === "moneda");
         const todosMetas = objectsLayer.objects.filter(obj => obj.type === "meta");
 
-
+        // this.jugadorIzquierdo = new Jugador(this, spawnJugador1.x, spawnJugador1.y, this.autoJugador1, "izquierda");
+        // this.jugadorDerecho = new Jugador(this, spawnJugador2.x, spawnJugador2.y, this.autoJugador2, "derecha");
         this.jugadorIzquierdo = new Jugador(this, spawnJugador1.x, spawnJugador1.y, "autocarrera-rojo", "izquierda");
         this.jugadorDerecho = new Jugador(this, spawnJugador2.x, spawnJugador2.y, "autocarrera-lila", "derecha");
-
         // Creacion de grupos de obstaculos:
 
         this.lavaGrupo = this.physics.add.group({
@@ -128,14 +122,10 @@ export default class Nivel1 extends Phaser.Scene {
         this.physics.add.collider(this.jugadorDerecho, this.lavaGrupo, this.collisionLava, null, this);
         this.physics.add.collider(this.jugadorIzquierdo, this.obstaculos, this.collisionObstaculo, null, this);
         this.physics.add.collider(this.jugadorDerecho, this.obstaculos, this.collisionObstaculo, null, this);
-
         this.physics.add.overlap(this.jugadorIzquierdo, this.monedas, this.recolectarMoneda, null, this);
         this.physics.add.overlap(this.jugadorDerecho, this.monedas, this.recolectarMoneda, null, this);
-
         this.physics.add.overlap(this.jugadorIzquierdo, this.metas, this.establecerGanador, null, this);
         this.physics.add.overlap(this.jugadorDerecho, this.metas, this.establecerGanador, null, this);
-
-
 
         // Configuracion de los controles de los jugadores:
         this.controlesDerechos = this.input.keyboard.createCursorKeys();
@@ -149,20 +139,15 @@ export default class Nivel1 extends Phaser.Scene {
 
         this.physics.world.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels);
 
-
         // Configuracion de las camaras:
         this.camaraIzquierdo = this.cameras.main.setSize(this.scale.width / 2, this.scale.height);
         this.camaraIzquierdo.scrollX = 0;
         this.camaraIzquierdo.setBounds(0, 0, this.map.widthInPixels / 2, this.map.heightInPixels);
         this.camaraIzquierdo.startFollow(this.jugadorIzquierdo);
-
         this.camaraDerecha = this.cameras.add(this.scale.width / 2, 0, this.scale.width / 2, this.scale.height);
         this.camaraDerecha.scrollX = this.scale.width / 2;
-
         this.camaraDerecha.setBounds(this.scale.width / 2, 0, this.map.widthInPixels / 2, this.map.heightInPixels);
         this.camaraDerecha.startFollow(this.jugadorDerecho);
-
-
         this.scene.launch("ui", { tiempo: (this.map.heightInPixels / this.jugadorIzquierdo.velocidadInicialY) * -0.75 });
     }
 
@@ -174,7 +159,6 @@ export default class Nivel1 extends Phaser.Scene {
             this.scene.start("PantallaMenuPrincipal");
         }
         this.jugadorDerecho.mover(this.controlesDerechos);
-
         this.jugadorIzquierdo.mover(this.controlesIzquierdos);
     }
 
@@ -199,7 +183,6 @@ export default class Nivel1 extends Phaser.Scene {
 
                 const value = tween.getValue();
                 const colorObject = Phaser.Display.Color.Interpolate.ColorWithColor(inicioColor, finalColor, 100, value)
-
                 const color = Phaser.Display.Color.GetColor(colorObject.r, colorObject.g, colorObject.b)
                 jugadorLocal.setTint(color)
             },
@@ -208,19 +191,6 @@ export default class Nivel1 extends Phaser.Scene {
                 jugadorLocal.puedeMoverse = true;
             }
         });
-
-
-        /* this.tweens.add({
-             targets: jugadorLocal,
-             scaleX: 0.5,
-             scaleY: 0.5,
-             duration: 1000,
-             ease: 'Linear',
-             onComplete: () => {
-                 this.scene.stop("ui");
-                 this.scene.start("PatallaGameOver");
-             }
-         }); */
     }
 
     collisionObstaculo(jugador, obstaculo) {
@@ -281,6 +251,4 @@ export default class Nivel1 extends Phaser.Scene {
         this.scene.stop("ui");
         this.scene.start("PantallaFinRonda", { ganador: this.ganador, perdedor: jugadorPerdedor });
     }
-
-
 }
