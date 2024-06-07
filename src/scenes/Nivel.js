@@ -1,47 +1,35 @@
 import Phaser from "phaser";
-import Jugador from "../../objetos/Jugador";
-import Lava from "../../objetos/Lava";
-import BolaFuego from "../../objetos/BolaFuego";
-import Moneda from "../../objetos/Moneda";
-import Meta from "../../objetos/Meta";
+import Jugador from "../objetos/Jugador";
+import Lava from "../objetos/Lava";
+import BolaFuego from "../objetos/BolaFuego";
+import Moneda from "../objetos/Moneda";
+import Meta from "../objetos/Meta";
 
-export default class Nivel1 extends Phaser.Scene {
+export default class Nivel extends Phaser.Scene {
     ganador;
-
     jugadorIzquierdo;
-
     jugadorDerecho;
-
     tiempo;
-
     camaraIzquierdo;
-
     camaraDerecha;
-
     controlesIzquierdos;
-
     controlesDerechos;
-
     vidasEquipoIzquierda = 3;
-
     vidasEquipoDerecha = 3;
-
     monedasEquipoIzquierda = 0;
-
     monedasEquipoDerecha = 0;
 
     constructor() {
-        super("Nivel1");
+        super("Nivel");
+        this.maxNivel = 4;
     }
 
     init(data) {
+        this.nivel = data.nivel || 1;
+        this.maxNivel = data.maxNivel || 4; 
         this.tiempo = 30;
-        //  this.vidasEquipoIzquierda = 3;
-        // this.vidasEquipoDerecha = 3;
         this.monedasEquipoIzquierda = 0;
         this.monedasEquipoDerecha = 0;
-        // this.autoJugador1 = this.scene.settings.autoJugador1;
-        // this.autoJugador2 = this.scene.settings.autoJugador2;
         this.autoJugador1 = data.autoJugador1;
         this.autoJugador2 = data.autoJugador2;
         this.ganador = null;
@@ -53,10 +41,8 @@ export default class Nivel1 extends Phaser.Scene {
         this.map.createLayer("piso", tiled);
         this.map.createLayer("piso", tiled);
         this.map.createLayer("decoracion", tiled);
-
         const centro = this.map.createLayer("centro", tiled);
         centro.setCollisionByProperty({ collision: true });
-
         const objectsLayer = this.map.getObjectLayer("objetos");
         const spawnJugador1 = objectsLayer.objects.find(obj => obj.name === "jugador1");
         const spawnJugador2 = objectsLayer.objects.find(obj => obj.name === "jugador2");
@@ -67,9 +53,7 @@ export default class Nivel1 extends Phaser.Scene {
 
         this.jugadorIzquierdo = new Jugador(this, spawnJugador1.x, spawnJugador1.y, this.autoJugador1, "izquierda");
         this.jugadorDerecho = new Jugador(this, spawnJugador2.x, spawnJugador2.y, this.autoJugador2, "derecha");
-        // this.jugadorIzquierdo = new Jugador(this, spawnJugador1.x, spawnJugador1.y, "autocarrera-rojo", "izquierda");
-        // this.jugadorDerecho = new Jugador(this, spawnJugador2.x, spawnJugador2.y, "autocarrera-lila", "derecha");
-
+        
         // Creacion de grupos de obstaculos:
         this.lavaGrupo = this.physics.add.group({
             immovable: true,
@@ -152,26 +136,18 @@ export default class Nivel1 extends Phaser.Scene {
         this.scene.launch("ui", { tiempo: (this.map.heightInPixels / this.jugadorIzquierdo.velocidadInicialY) * -0.75 });
     }
 
-
     update() {
-        /* if (this.vidasEquipoIzquierda <= 0 || this.vidasEquipoDerecha <= 0) {
-            // TODO: cambiar a gameover.
-            this.scene.stop("ui");
-            this.scene.start("PantallaMenuPrincipal");
-        } */
         this.jugadorDerecho.mover(this.controlesDerechos);
         this.jugadorIzquierdo.mover(this.controlesIzquierdos);
     }
 
     collisionLava(jugador) {
         // Cuando el jugador colisiona con la lava, termina el nivel, accediendo al GameOver. Establecemos la propiedad del jugador puedeMoverse a false, para que no pueda moverse.
-
         const jugadorLocal = jugador;
         jugadorLocal.puedeMoverse = false;
         jugador.recibirImpacto();
         const inicioColor = Phaser.Display.Color.ValueToColor(jugadorLocal.tint);
         const finalColor = Phaser.Display.Color.ValueToColor(0x000000);
-
 
         this.tweens.addCounter({
             from: 0,
@@ -200,10 +176,8 @@ export default class Nivel1 extends Phaser.Scene {
         if (obstaculo.exploto) return;
         const jugadorLocal = jugador;
         jugadorLocal.puedeMoverse = false;
-
         obstaculo.destruccion();
         jugador.recibirImpacto();
-
         const inicioColor = Phaser.Display.Color.ValueToColor(jugadorLocal.tint);
         const finalColor = Phaser.Display.Color.ValueToColor(0x000000);
 
@@ -218,7 +192,6 @@ export default class Nivel1 extends Phaser.Scene {
 
                 const value = tween.getValue();
                 const colorObject = Phaser.Display.Color.Interpolate.ColorWithColor(inicioColor, finalColor, 100, value)
-
                 const color = Phaser.Display.Color.GetColor(colorObject.r, colorObject.g, colorObject.b)
                 jugadorLocal.setTint(color)
             },
@@ -232,10 +205,9 @@ export default class Nivel1 extends Phaser.Scene {
         this.camaraIzquierdo.shake(100, 0.01);
         this.camaraIzquierdo.flash(100, 255, 0, 0);
     }
-
+    
     // eslint-disable-next-line class-methods-use-this
     recolectarMoneda(jugador, moneda) {
-
         jugador.recolectarMoneda(moneda.cantidad);
         moneda.destroy();
     }
@@ -246,7 +218,13 @@ export default class Nivel1 extends Phaser.Scene {
         this.ganador.numeroRondasGanadas += 1;
         const jugadores = [this.jugadorIzquierdo, this.jugadorDerecho];
         const jugadorPerdedor = jugadores.find(j => j !== jugador);
+        console.log(`Ganador: ${this.ganador.textura}, Nivel actual: ${this.nivel}`);
         this.scene.stop("ui");
-        this.scene.start("PantallaFinRonda", { ganador: this.ganador, perdedor: jugadorPerdedor });
-    }
+        this.scene.start("PantallaFinRonda", { 
+            ganador: this.ganador, 
+            perdedor: jugadorPerdedor, 
+            nivel: this.nivel, 
+            maxNivel: this.maxNivel 
+        });
+    }    
 }

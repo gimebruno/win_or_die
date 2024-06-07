@@ -1,11 +1,9 @@
 {
-    "Map/SizeTest": {
-        "height": 4300,
-        "width": 2
-    },
     "activeFile": "nivel1.tmx",
     "expandedProjectPaths": [
+        "."
     ],
+    "file.lastUsedOpenFilter": "Todos los archivos (*)",
     "fileStates": {
         "": {
             "scaleInDock": 1,
@@ -26,12 +24,34 @@
         "atlas-lava.tsx": {
             "scaleInDock": 1
         },
+        "nivel1 - copia.tmx": {
+            "scale": 0.1603125,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 184.01559454191033,
+                "y": 3867.446393762183
+            }
+        },
+        "nivel1 - copia.tmx#atlas-lava": {
+            "scaleInDock": 1
+        },
+        "nivel1.tmj": {
+            "scale": 0.5351171874999999,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 640.0467187385942,
+                "y": 368.1436601211768
+            }
+        },
+        "nivel1.tmj#atlas-lava": {
+            "scaleInDock": 1
+        },
         "nivel1.tmx": {
             "scale": 0.33,
-            "selectedLayer": 3,
+            "selectedLayer": 2,
             "viewCenter": {
-                "x": 475.75757575757575,
-                "y": 2933.333333333333
+                "x": 474.24242424242436,
+                "y": 2124.242424242424
             }
         },
         "nivel1.tmx#atlas-lava": {
@@ -58,21 +78,14 @@
             "scaleInDock": 1
         }
     },
-    "last.exportedFilePath": "C:/Users/Agustin/Desktop/programacion/win-or-die/public/assets/tilemap",
-    "last.externalTilesetPath": "C:/Users/Agustin/Desktop/programacion/win-or-die/public/assets/atlas",
-    "last.imagePath": "C:/Users/Agustin/Desktop/programacion/win-or-die/public/assets/atlas",
-    "map.height": 23,
-    "map.lastUsedExportFilter": "JSON map files (*.tmj *.json)",
-    "map.lastUsedFormat": "json",
-    "map.width": 34,
     "openFiles": [
         "nivel1.tmx"
     ],
     "project": "nivel1.tiled-project",
-    "property.type": "bool",
     "recentFiles": [
         "nivel1.tmx",
+        "nivel1 - copia.tmx",
+        "nivel1.tmj",
         "prueba.tmj"
-    ],
-    "tileset.embedInMap": true
+    ]
 }

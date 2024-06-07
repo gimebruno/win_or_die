@@ -114,7 +114,7 @@ export default class SeleccionAuto extends Phaser.Scene {
             this.registry.set('selectedAutoNamePlayer1', selectedAutoNamePlayer1);
             this.registry.set('selectedAutoNamePlayer2', selectedAutoNamePlayer2);
 
-            this.scene.start('Nivel1', {
+            this.scene.start('Nivel', {
                 autoJugador1: selectedAutoNamePlayer1,
                 autoJugador2: selectedAutoNamePlayer2
             });
