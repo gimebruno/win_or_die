@@ -27,8 +27,8 @@ export default class SeleccionAuto extends Phaser.Scene {
             strokeThickness: 6 
         }).setOrigin(0.5);
 
-        const selectedAutoPlayer1 = this.add.image(centerX - 200, centerY, `auto${this.selectedAutoIndexPlayer1 + 1}`).setScale(1);
-        const selectedAutoPlayer2 = this.add.image(centerX + 200, centerY, `auto${this.selectedAutoIndexPlayer2 + 1}`).setScale(1);
+        const selectedAutoPlayer1 = this.add.image(centerX - 200, centerY, `auto${this.selectedAutoIndexPlayer1 + 1}`);
+        const selectedAutoPlayer2 = this.add.image(centerX + 200, centerY, `auto${this.selectedAutoIndexPlayer2 + 1}`);
         
         const flechaArribaPlayer1 = this.add.text(selectedAutoPlayer1.x, selectedAutoPlayer1.y - selectedAutoPlayer1.displayHeight / 2 + 180, '▲', { 
             fontSize: '40px', 
@@ -121,6 +121,5 @@ export default class SeleccionAuto extends Phaser.Scene {
         }, 1, 50);
         // eslint-disable-next-line no-unused-vars
             const _ = botonSeleccionar;
-
     }
 }

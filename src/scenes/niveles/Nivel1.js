@@ -40,6 +40,8 @@ export default class Nivel1 extends Phaser.Scene {
         this.vidasEquipoDerecha = 3;
         this.monedasEquipoIzquierda = 0;
         this.monedasEquipoDerecha = 0;
+        this.autoJugador1 = this.scene.settings.autoJugador1;
+        this.autoJugador2 = this.scene.settings.autoJugador2;
         // this.autoJugador1 = data.autoJugador1;
         // this.autoJugador2 = data.autoJugador2;
         this.ganador = null;
@@ -63,12 +65,12 @@ export default class Nivel1 extends Phaser.Scene {
         const todosMonedas = objectsLayer.objects.filter(obj => obj.type === "moneda");
         const todosMetas = objectsLayer.objects.filter(obj => obj.type === "meta");
 
-        // this.jugadorIzquierdo = new Jugador(this, spawnJugador1.x, spawnJugador1.y, this.autoJugador1, "izquierda");
-        // this.jugadorDerecho = new Jugador(this, spawnJugador2.x, spawnJugador2.y, this.autoJugador2, "derecha");
-        this.jugadorIzquierdo = new Jugador(this, spawnJugador1.x, spawnJugador1.y, "autocarrera-rojo", "izquierda");
-        this.jugadorDerecho = new Jugador(this, spawnJugador2.x, spawnJugador2.y, "autocarrera-lila", "derecha");
+        this.jugadorIzquierdo = new Jugador(this, spawnJugador1.x, spawnJugador1.y, this.autoJugador1, "izquierda");
+        this.jugadorDerecho = new Jugador(this, spawnJugador2.x, spawnJugador2.y, this.autoJugador2, "derecha");
+        // this.jugadorIzquierdo = new Jugador(this, spawnJugador1.x, spawnJugador1.y, "autocarrera-rojo", "izquierda");
+        // this.jugadorDerecho = new Jugador(this, spawnJugador2.x, spawnJugador2.y, "autocarrera-lila", "derecha");
+        
         // Creacion de grupos de obstaculos:
-
         this.lavaGrupo = this.physics.add.group({
             immovable: true,
             allowGravity: false
@@ -114,8 +116,8 @@ export default class Nivel1 extends Phaser.Scene {
             const metaPhysics = new Meta(this, meta.x, meta.y - 32);
             this.metas.add(metaPhysics);
         }
-        // Configuracion de las colisiones:
 
+        // Configuracion de las colisiones:
         this.physics.add.collider(this.jugadorIzquierdo, centro);
         this.physics.add.collider(this.jugadorDerecho, centro);
         this.physics.add.collider(this.jugadorIzquierdo, this.lavaGrupo, this.collisionLava, null, this);
@@ -129,7 +131,6 @@ export default class Nivel1 extends Phaser.Scene {
 
         // Configuracion de los controles de los jugadores:
         this.controlesDerechos = this.input.keyboard.createCursorKeys();
-
         this.controlesIzquierdos = this.input.keyboard.addKeys({
             up: Phaser.Input.Keyboard.KeyCodes.W,
             down: Phaser.Input.Keyboard.KeyCodes.S,
@@ -202,10 +203,8 @@ export default class Nivel1 extends Phaser.Scene {
         obstaculo.destruccion();
         jugador.recibirImpacto();
 
-
         const inicioColor = Phaser.Display.Color.ValueToColor(jugadorLocal.tint);
         const finalColor = Phaser.Display.Color.ValueToColor(0x000000);
-
 
         this.tweens.addCounter({
             from: 0,
@@ -244,10 +243,8 @@ export default class Nivel1 extends Phaser.Scene {
         if (this.ganador) return;
         this.ganador = jugador;
         this.ganador.numeroRondasGanadas += 1;
-
         const jugadores = [this.jugadorIzquierdo, this.jugadorDerecho];
         const jugadorPerdedor = jugadores.find(j => j !== jugador);
-
         this.scene.stop("ui");
         this.scene.start("PantallaFinRonda", { ganador: this.ganador, perdedor: jugadorPerdedor });
     }
