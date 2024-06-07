@@ -3,21 +3,13 @@ import events from '../scenes/EventCenter';
 
 export default class Jugador extends Phaser.Physics.Arcade.Sprite {
     textura;
-
     contadorImpactos;
-
     ladoEquipo;
-
     puedeMoverse;
-
     camara;
-
     velocidadInicialY;
-
     velocidadTurboY;
-
     monedas;
-
     numeroRondasGanadas;
 
     constructor(scene, x, y, texture, ladoEquipo) {
@@ -26,14 +18,11 @@ export default class Jugador extends Phaser.Physics.Arcade.Sprite {
         this.scene.add.existing(this);
         this.scene.physics.add.existing(this);
         this.setCollideWorldBounds(true);
-
         this.body.setAllowGravity(false);
         this.ladoEquipo = ladoEquipo;
         this.puedeMoverse = true;
-
         this.velocidadInicialY = -150;
         this.velocidadTurboY = -350;
-
         this.monedas = 0;
         this.numeroRondasGanadas = 0;
         this.textura = texture;
@@ -57,8 +46,6 @@ export default class Jugador extends Phaser.Physics.Arcade.Sprite {
             /* this.scene.monedasEquipoDerecha += 1; */
             this.monedas += cantidadMonedas;
             events.emit("moneda-recolectada", "derecha", this.monedas);
-
-
         }
     }
 
@@ -92,7 +79,4 @@ export default class Jugador extends Phaser.Physics.Arcade.Sprite {
             // this.setVelocityY(0);
         }
     }
-
-
-
 }
