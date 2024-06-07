@@ -34,16 +34,16 @@ export default class Nivel1 extends Phaser.Scene {
         super("Nivel1");
     }
 
-    init() {
+    init(data) {
         this.tiempo = 30;
-        this.vidasEquipoIzquierda = 3;
-        this.vidasEquipoDerecha = 3;
+        //  this.vidasEquipoIzquierda = 3;
+        // this.vidasEquipoDerecha = 3;
         this.monedasEquipoIzquierda = 0;
         this.monedasEquipoDerecha = 0;
-        this.autoJugador1 = this.scene.settings.autoJugador1;
-        this.autoJugador2 = this.scene.settings.autoJugador2;
-        // this.autoJugador1 = data.autoJugador1;
-        // this.autoJugador2 = data.autoJugador2;
+        // this.autoJugador1 = this.scene.settings.autoJugador1;
+        // this.autoJugador2 = this.scene.settings.autoJugador2;
+        this.autoJugador1 = data.autoJugador1;
+        this.autoJugador2 = data.autoJugador2;
         this.ganador = null;
     }
 
@@ -69,7 +69,7 @@ export default class Nivel1 extends Phaser.Scene {
         this.jugadorDerecho = new Jugador(this, spawnJugador2.x, spawnJugador2.y, this.autoJugador2, "derecha");
         // this.jugadorIzquierdo = new Jugador(this, spawnJugador1.x, spawnJugador1.y, "autocarrera-rojo", "izquierda");
         // this.jugadorDerecho = new Jugador(this, spawnJugador2.x, spawnJugador2.y, "autocarrera-lila", "derecha");
-        
+
         // Creacion de grupos de obstaculos:
         this.lavaGrupo = this.physics.add.group({
             immovable: true,
@@ -154,11 +154,11 @@ export default class Nivel1 extends Phaser.Scene {
 
 
     update() {
-        if (this.vidasEquipoIzquierda <= 0 || this.vidasEquipoDerecha <= 0) {
+        /* if (this.vidasEquipoIzquierda <= 0 || this.vidasEquipoDerecha <= 0) {
             // TODO: cambiar a gameover.
             this.scene.stop("ui");
             this.scene.start("PantallaMenuPrincipal");
-        }
+        } */
         this.jugadorDerecho.mover(this.controlesDerechos);
         this.jugadorIzquierdo.mover(this.controlesIzquierdos);
     }
@@ -190,6 +190,7 @@ export default class Nivel1 extends Phaser.Scene {
             onComplete: () => {
                 jugadorLocal.clearTint();
                 jugadorLocal.puedeMoverse = true;
+
             }
         });
     }

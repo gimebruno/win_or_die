@@ -28,7 +28,6 @@ export default class Jugador extends Phaser.Physics.Arcade.Sprite {
         this.setCollideWorldBounds(true);
 
         this.body.setAllowGravity(false);
-        this.setScale(1.55);
         this.ladoEquipo = ladoEquipo;
         this.puedeMoverse = true;
 
