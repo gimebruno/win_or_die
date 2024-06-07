@@ -35,6 +35,17 @@
         "nivel1 - copia.tmx#atlas-lava": {
             "scaleInDock": 1
         },
+        "nivel1.json": {
+            "scale": 0.1603125,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 645.6140350877195,
+                "y": 2401.5594541910336
+            }
+        },
+        "nivel1.json#atlas-lava": {
+            "scaleInDock": 1
+        },
         "nivel1.tmj": {
             "scale": 0.5351171874999999,
             "selectedLayer": 0,
@@ -51,7 +62,7 @@
             "selectedLayer": 2,
             "viewCenter": {
                 "x": 474.24242424242436,
-                "y": 2124.242424242424
+                "y": 2121.212121212121
             }
         },
         "nivel1.tmx#atlas-lava": {
@@ -65,6 +76,28 @@
         },
         "nivel1.tmx#test": {
             "scaleInEditor": 1
+        },
+        "nivel2.json": {
+            "scale": 0.1603125,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": 645.6140350877195,
+                "y": 2401.5594541910336
+            }
+        },
+        "nivel2.json#atlas-lava": {
+            "scaleInDock": 1
+        },
+        "nivel3.json": {
+            "scale": 0.1603125,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 645.6140350877195,
+                "y": 2401.5594541910336
+            }
+        },
+        "nivel3.json#atlas-lava": {
+            "scaleInDock": 1
         },
         "prueba.tmj": {
             "scale": 1,

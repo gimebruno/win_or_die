@@ -35,14 +35,17 @@ export default class Nivel extends Phaser.Scene {
         this.ganador = null;
     }
 
+
     create() {
-        this.map = this.make.tilemap({ key: "nivel1" });
+        // Cargar el mapa basado en el nivel actual
+        const mapaClave = `nivel${this.nivel}`;
+        this.map = this.make.tilemap({ key: mapaClave });
         const tiled = this.map.addTilesetImage("atlas-lava", "atlas-lava");
         this.map.createLayer("piso", tiled);
         this.map.createLayer("piso", tiled);
         this.map.createLayer("decoracion", tiled);
-        const centro = this.map.createLayer("centro", tiled);
-        centro.setCollisionByProperty({ collision: true });
+        //const centro = this.map.createLayer("centro", tiled);
+        //centro.setCollisionByProperty({ collision: true });
         const objectsLayer = this.map.getObjectLayer("objetos");
         const spawnJugador1 = objectsLayer.objects.find(obj => obj.name === "jugador1");
         const spawnJugador2 = objectsLayer.objects.find(obj => obj.name === "jugador2");
@@ -102,8 +105,8 @@ export default class Nivel extends Phaser.Scene {
         }
 
         // Configuracion de las colisiones:
-        this.physics.add.collider(this.jugadorIzquierdo, centro);
-        this.physics.add.collider(this.jugadorDerecho, centro);
+        //this.physics.add.collider(this.jugadorIzquierdo, centro);
+        //this.physics.add.collider(this.jugadorDerecho, centro);
         this.physics.add.collider(this.jugadorIzquierdo, this.lavaGrupo, this.collisionLava, null, this);
         this.physics.add.collider(this.jugadorDerecho, this.lavaGrupo, this.collisionLava, null, this);
         this.physics.add.collider(this.jugadorIzquierdo, this.obstaculos, this.collisionObstaculo, null, this);

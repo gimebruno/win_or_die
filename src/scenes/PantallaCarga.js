@@ -30,6 +30,9 @@ export default class PantallaCarga extends Phaser.Scene {
 
         // tilemap
         this.load.tilemapTiledJSON("nivel1", "assets/tilemap/nivel1.json");
+        this.load.tilemapTiledJSON("nivel2", "assets/tilemap/nivel2.json");
+        this.load.tilemapTiledJSON("nivel3", "assets/tilemap/nivel3.json");
+        this.load.tilemapTiledJSON("nivel4", "assets/tilemap/nivel4.json");
 
         // Atlas
         this.load.image('atlas-lava', 'assets/atlas/atlas-lava.png');
