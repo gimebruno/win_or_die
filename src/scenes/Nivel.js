@@ -222,12 +222,21 @@ export default class Nivel extends Phaser.Scene {
         const jugadores = [this.jugadorIzquierdo, this.jugadorDerecho];
         const jugadorPerdedor = jugadores.find(j => j !== jugador);
         console.log(`Ganador: ${this.ganador.textura}, Nivel actual: ${this.nivel}`);
+        
+        // Guardar los datos de ambos autos
+        const datosAutos = {
+            autoJugador1: this.autoJugador1,
+            autoJugador2: this.autoJugador2,
+        };
+    
         this.scene.stop("ui");
         this.scene.start("PantallaFinRonda", { 
             ganador: this.ganador, 
             perdedor: jugadorPerdedor, 
             nivel: this.nivel, 
-            maxNivel: this.maxNivel 
+            maxNivel: this.maxNivel,
+            ...datosAutos
         });
-    }    
+    }
+        
 }

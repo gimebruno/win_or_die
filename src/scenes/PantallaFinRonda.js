@@ -6,6 +6,8 @@ export default class PantallaFinRonda extends Phaser.Scene {
     perdedor;
     nivel;
     maxNivel;
+    autoJugador1;
+    autoJugador2;
 
     constructor() {
         super("PantallaFinRonda");
@@ -16,6 +18,8 @@ export default class PantallaFinRonda extends Phaser.Scene {
         this.perdedor = data.perdedor;
         this.nivel = data.nivel || 1;
         this.maxNivel = data.maxNivel || 4;
+        this.autoJugador1 = data.autoJugador1;
+        this.autoJugador2 = data.autoJugador2;
     }
 
     create() {
@@ -25,19 +29,20 @@ export default class PantallaFinRonda extends Phaser.Scene {
         this.add.image((this.scale.width / 2), 250, this.ganador.textura).setOrigin(0.5);
         this.add.text((this.scale.width / 2), 300, `puntos ${this.ganador.monedas}`, { fontFamily: 'Arial', fontSize: 40, color: '#ffffff' }).setOrigin(0.5);
         this.add.text((this.scale.width / 2), 350, `Rondas ganadas ${this.ganador.numeroRondasGanadas}`, { fontFamily: 'Arial', fontSize: 40, color: '#ffffff' }).setOrigin(0.5);
-    
+
         const startNextLevel = () => {
             if (this.nivel < this.maxNivel) {
                 this.scene.start('Nivel', {
                     nivel: this.nivel + 1,
-                    autoJugador1: this.ganador.auto,
-                    autoJugador2: this.perdedor.auto,
+                    autoJugador1: this.autoJugador1,  // Pasar el auto del jugador 1
+                    autoJugador2: this.autoJugador2,  // Pasar el auto del jugador 2
                     maxNivel: this.maxNivel
                 });
             } else {
                 this.scene.start('PantallaMenu');
             }
         };
+
         new Boton(this, this.scale.width / 2, (this.scale.height / 2) + 200, 'Siguiente Ronda', startNextLevel, 1, 50, 'fondo-boton');
         this.input.keyboard.on('keydown-ENTER', startNextLevel);
     }    
