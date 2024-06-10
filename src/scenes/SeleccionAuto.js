@@ -30,7 +30,7 @@ export default class SeleccionAuto extends Phaser.Scene {
         const selectedAutoPlayer1 = this.add.image(centerX - 200, centerY, `auto${this.selectedAutoIndexPlayer1 + 1}`);
         const selectedAutoPlayer2 = this.add.image(centerX + 200, centerY, `auto${this.selectedAutoIndexPlayer2 + 1}`);
 
-        const flechaArribaPlayer1 = this.add.text(selectedAutoPlayer1.x, selectedAutoPlayer1.y - selectedAutoPlayer1.displayHeight / 2 + 180, '▲', {
+        const flechaArribaPlayer1 = this.add.text(selectedAutoPlayer1.x, selectedAutoPlayer1.y - selectedAutoPlayer1.displayHeight / 2 - 70, '▲', {
             fontSize: '40px',
             fontStyle: 'bold',
             color: 'white',
@@ -39,7 +39,7 @@ export default class SeleccionAuto extends Phaser.Scene {
             strokeThickness: 2
         }).setOrigin(0.5).setInteractive();
 
-        const flechaAbajoPlayer1 = this.add.text(selectedAutoPlayer1.x, selectedAutoPlayer1.y + selectedAutoPlayer1.displayHeight / 2 - 170, '▼', {
+        const flechaAbajoPlayer1 = this.add.text(selectedAutoPlayer1.x, selectedAutoPlayer1.y + selectedAutoPlayer1.displayHeight / 2 + 70, '▼', {
             fontSize: '40px',
             fontStyle: 'bold',
             color: 'white',
@@ -48,7 +48,7 @@ export default class SeleccionAuto extends Phaser.Scene {
             strokeThickness: 2
         }).setOrigin(0.5).setInteractive();
 
-        const flechaArribaPlayer2 = this.add.text(selectedAutoPlayer2.x, selectedAutoPlayer2.y - selectedAutoPlayer2.displayHeight / 2 + 180, '▲', {
+        const flechaArribaPlayer2 = this.add.text(selectedAutoPlayer2.x, selectedAutoPlayer2.y - selectedAutoPlayer2.displayHeight / 2 - 70, '▲', {
             fontSize: '40px',
             fontStyle: 'bold',
             color: 'white',
@@ -57,7 +57,7 @@ export default class SeleccionAuto extends Phaser.Scene {
             strokeThickness: 2
         }).setOrigin(0.5).setInteractive();
 
-        const flechaAbajoPlayer2 = this.add.text(selectedAutoPlayer2.x, selectedAutoPlayer2.y + selectedAutoPlayer2.displayHeight / 2 - 170, '▼', {
+        const flechaAbajoPlayer2 = this.add.text(selectedAutoPlayer2.x, selectedAutoPlayer2.y + selectedAutoPlayer2.displayHeight / 2 + 70, '▼', {
             fontSize: '40px',
             fontStyle: 'bold',
             color: 'white',
@@ -70,7 +70,7 @@ export default class SeleccionAuto extends Phaser.Scene {
             flecha.setScale(1.5);
         });
 
-        this.add.text(selectedAutoPlayer1.x, selectedAutoPlayer1.y + selectedAutoPlayer1.displayHeight / 2 + 50, 'Jugador 1', {
+        this.add.text(selectedAutoPlayer1.x, selectedAutoPlayer1.y + selectedAutoPlayer1.displayHeight / 2 + 110, 'Jugador 1', {
             fontSize: '24px',
             fontStyle: 'bold',
             color: 'white',
@@ -79,7 +79,7 @@ export default class SeleccionAuto extends Phaser.Scene {
             strokeThickness: 2
         }).setOrigin(0.5);
 
-        this.add.text(selectedAutoPlayer2.x, selectedAutoPlayer2.y + selectedAutoPlayer2.displayHeight / 2 + 50, 'Jugador 2', {
+        this.add.text(selectedAutoPlayer2.x, selectedAutoPlayer2.y + selectedAutoPlayer2.displayHeight / 2 + 110, 'Jugador 2', {
             fontSize: '24px',
             fontStyle: 'bold',
             color: 'white',
@@ -108,7 +108,7 @@ export default class SeleccionAuto extends Phaser.Scene {
             selectedAutoPlayer2.setTexture(`auto${this.selectedAutoIndexPlayer2 + 1}`);
         });
 
-        const botonSeleccionar = new BotonAmarrillo(this, centerX, 600, 'Seleccionar', () => {
+        const botonSeleccionar = new BotonAmarrillo(this, centerX, 650, 'Seleccionar', () => {
             const selectedAutoNamePlayer1 = `auto${this.selectedAutoIndexPlayer1 + 1}`;
             const selectedAutoNamePlayer2 = `auto${this.selectedAutoIndexPlayer2 + 1}`;
             this.registry.set('selectedAutoNamePlayer1', selectedAutoNamePlayer1);
