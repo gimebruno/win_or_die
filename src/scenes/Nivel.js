@@ -147,33 +147,68 @@ export default class Nivel extends Phaser.Scene {
         this.jugadorDerecho.mover(this.controlesDerechos);
         this.jugadorIzquierdo.mover(this.controlesIzquierdos);
     }
-
+  
     collisionLava(jugador) {
-        // Cuando el jugador colisiona con la lava, termina el nivel, accediendo al GameOver. Establecemos la propiedad del jugador puedeMoverse a false, para que no pueda moverse.
-        const jugadorLocal = jugador;
-        jugadorLocal.puedeMoverse = false;
-        jugador.recibirImpacto();
-        const inicioColor = Phaser.Display.Color.ValueToColor(jugadorLocal.tint);
-        const finalColor = Phaser.Display.Color.ValueToColor(0x000000);
-
-        this.tweens.addCounter({
-            from: 0,
-            to: 100,
-            duration: 50,
-            repeat: 1,
-            yoyo: true,
-            ease: Phaser.Math.Easing.Sine.InOut,
-            onUpdate: tween => {
-                const value = tween.getValue();
-                const colorObject = Phaser.Display.Color.Interpolate.ColorWithColor(inicioColor, finalColor, 100, value);
-                const color = Phaser.Display.Color.GetColor(colorObject.r, colorObject.g, colorObject.b);
-                jugadorLocal.setTint(color);
-            },
-            onComplete: () => {
-                jugadorLocal.clearTint();
-                jugadorLocal.puedeMoverse = true;
-            }
-        });
+        if (jugador === this.jugadorIzquierdo) {
+            this.jugadorIzquierdo.puedeMoverse = false;
+            const capaGrisIzquierda = this.add.rectangle(
+                this.camaraIzquierdo.scrollX, 
+                this.camaraIzquierdo.scrollY, 
+                this.camaraIzquierdo.width, 
+                this.camaraIzquierdo.height, 
+                0x000000, 
+                0.5 
+            ).setOrigin(0);
+            capaGrisIzquierda.setScale(1, 5);
+            const rectanguloNegroIzquierda = this.add.rectangle(
+                this.camaraIzquierdo.scrollX + this.camaraIzquierdo.width / 2,
+                this.camaraIzquierdo.scrollY + this.camaraIzquierdo.height / 2+20,
+                this.camaraIzquierdo.width, 
+                this.camaraIzquierdo.height * 0.15,
+                0x000000
+            ).setOrigin(0.5);
+            const mensajePerdisteIzquierda = this.add.text(
+                this.camaraIzquierdo.scrollX + this.camaraIzquierdo.width / 2, 
+                this.camaraIzquierdo.scrollY + this.camaraIzquierdo.height / 2, 
+                "Perdiste",
+                { fontFamily: 'Arial', fontSize: 48, color: '#ffffff' }
+            ).setOrigin(0.5);
+            const mensajeAdicionalPerdisteIzquierda = this.add.text(
+                this.camaraIzquierdo.scrollX + this.camaraIzquierdo.width / 2, 
+                this.camaraIzquierdo.scrollY + this.camaraIzquierdo.height / 2+40, 
+                "Espera a la siguiente ronda",
+                { fontFamily: 'Arial', fontSize: 20, color: '#ffffff' }
+            ).setOrigin(0.5);
+        } else if (jugador === this.jugadorDerecho) { 
+            this.jugadorDerecho.puedeMoverse = false;
+            const capaGrisDerecha = this.add.rectangle(
+                this.camaraDerecha.scrollX, 
+                this.camaraDerecha.scrollY, 
+                this.camaraDerecha.width, 
+                this.camaraDerecha.height, 
+                0x000000, 
+                0.5 
+            ).setOrigin(0);
+            const rectanguloNegroDerecha = this.add.rectangle(
+                this.camaraDerecha.scrollX + this.camaraDerecha.width / 2,
+                this.camaraDerecha.scrollY + this.camaraDerecha.height / 2+20,
+                this.camaraDerecha.width,
+                this.camaraDerecha.height * 0.15, 
+                0x000000
+            ).setOrigin(0.5);
+            const mensajePerdisteDerecha = this.add.text(
+                this.camaraDerecha.scrollX + this.camaraDerecha.width / 2, 
+                this.camaraDerecha.scrollY + this.camaraDerecha.height / 2, 
+                "Perdiste",
+                { fontFamily: 'Arial', fontSize: 48, color: '#ffffff' }
+            ).setOrigin(0.5);
+            const mensajeAdicionalPerdisteDerecha = this.add.text(
+                this.camaraDerecha.scrollX + this.camaraDerecha.width / 2, 
+                this.camaraDerecha.scrollY + this.camaraDerecha.height / 2+40, 
+                "Espera a la siguiente ronda",
+                { fontFamily: 'Arial', fontSize: 20, color: '#ffffff' }
+            ).setOrigin(0.5);
+        }
     }
 
     collisionObstaculo(jugador, obstaculo) {
