@@ -35,7 +35,6 @@ export default class Nivel extends Phaser.Scene {
         this.ganador = null;
     }
 
-
     create() {
         // Cargar el mapa basado en el nivel actual
         const mapaClave = `nivel${this.nivel}`;
@@ -130,12 +129,17 @@ export default class Nivel extends Phaser.Scene {
         // Configuracion de las camaras:
         this.camaraIzquierdo = this.cameras.main.setSize(this.scale.width / 2, this.scale.height);
         this.camaraIzquierdo.scrollX = 0;
-        this.camaraIzquierdo.setBounds(0, 0, this.map.widthInPixels / 2, this.map.heightInPixels);
-        this.camaraIzquierdo.startFollow(this.jugadorIzquierdo);
+        this.camaraIzquierdo.scrollY = 0;
+        this.camaraIzquierdo.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels);
+        this.camaraIzquierdo.startFollow(this.jugadorIzquierdo, true, 0.05, 0.05);
+    
+        // Ajustes en los límites y la configuración de la cámara derecha
         this.camaraDerecha = this.cameras.add(this.scale.width / 2, 0, this.scale.width / 2, this.scale.height);
-        this.camaraDerecha.scrollX = this.scale.width / 2;
-        this.camaraDerecha.setBounds(this.scale.width / 2, 0, this.map.widthInPixels / 2, this.map.heightInPixels);
-        this.camaraDerecha.startFollow(this.jugadorDerecho);
+        this.camaraDerecha.scrollX = this.map.widthInPixels / 2; 
+        this.camaraDerecha.scrollY = 0;
+        this.camaraDerecha.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels); 
+        this.camaraDerecha.startFollow(this.jugadorDerecho, true, 0.05, 0.05); 
+        
         this.scene.launch("ui", { tiempo: (this.map.heightInPixels / this.jugadorIzquierdo.velocidadInicialY) * -0.75 });
     }
 
@@ -160,22 +164,19 @@ export default class Nivel extends Phaser.Scene {
             yoyo: true,
             ease: Phaser.Math.Easing.Sine.InOut,
             onUpdate: tween => {
-
                 const value = tween.getValue();
-                const colorObject = Phaser.Display.Color.Interpolate.ColorWithColor(inicioColor, finalColor, 100, value)
-                const color = Phaser.Display.Color.GetColor(colorObject.r, colorObject.g, colorObject.b)
-                jugadorLocal.setTint(color)
+                const colorObject = Phaser.Display.Color.Interpolate.ColorWithColor(inicioColor, finalColor, 100, value);
+                const color = Phaser.Display.Color.GetColor(colorObject.r, colorObject.g, colorObject.b);
+                jugadorLocal.setTint(color);
             },
             onComplete: () => {
                 jugadorLocal.clearTint();
                 jugadorLocal.puedeMoverse = true;
-
             }
         });
     }
 
     collisionObstaculo(jugador, obstaculo) {
-
         if (obstaculo.exploto) return;
         const jugadorLocal = jugador;
         jugadorLocal.puedeMoverse = false;
@@ -192,18 +193,16 @@ export default class Nivel extends Phaser.Scene {
             yoyo: true,
             ease: Phaser.Math.Easing.Sine.InOut,
             onUpdate: tween => {
-
                 const value = tween.getValue();
-                const colorObject = Phaser.Display.Color.Interpolate.ColorWithColor(inicioColor, finalColor, 100, value)
-                const color = Phaser.Display.Color.GetColor(colorObject.r, colorObject.g, colorObject.b)
-                jugadorLocal.setTint(color)
+                const colorObject = Phaser.Display.Color.Interpolate.ColorWithColor(inicioColor, finalColor, 100, value);
+                const color = Phaser.Display.Color.GetColor(colorObject.r, colorObject.g, colorObject.b);
+                jugadorLocal.setTint(color);
             },
             onComplete: () => {
                 jugadorLocal.clearTint();
                 jugadorLocal.puedeMoverse = true;
             }
         });
-
 
         this.camaraIzquierdo.shake(100, 0.01);
         this.camaraIzquierdo.flash(100, 255, 0, 0);
@@ -228,7 +227,7 @@ export default class Nivel extends Phaser.Scene {
             autoJugador1: this.autoJugador1,
             autoJugador2: this.autoJugador2,
         };
-    
+
         this.scene.stop("ui");
         this.scene.start("PantallaFinRonda", { 
             ganador: this.ganador, 
@@ -238,5 +237,4 @@ export default class Nivel extends Phaser.Scene {
             ...datosAutos
         });
     }
-        
 }
