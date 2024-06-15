@@ -36,15 +36,12 @@ export default class Nivel extends Phaser.Scene {
     }
 
     create() {
-        // Cargar el mapa basado en el nivel actual
         const mapaClave = `nivel${this.nivel}`;
         this.map = this.make.tilemap({ key: mapaClave });
         const tiled = this.map.addTilesetImage("atlas-lava", "atlas-lava");
         this.map.createLayer("piso", tiled);
         this.map.createLayer("piso", tiled);
         this.map.createLayer("decoracion", tiled);
-        //const centro = this.map.createLayer("centro", tiled);
-        //centro.setCollisionByProperty({ collision: true });
         const objectsLayer = this.map.getObjectLayer("objetos");
         const spawnJugador1 = objectsLayer.objects.find(obj => obj.name === "jugador1");
         const spawnJugador2 = objectsLayer.objects.find(obj => obj.name === "jugador2");
@@ -104,8 +101,6 @@ export default class Nivel extends Phaser.Scene {
         }
 
         // Configuracion de las colisiones:
-        //this.physics.add.collider(this.jugadorIzquierdo, centro);
-        //this.physics.add.collider(this.jugadorDerecho, centro);
         this.physics.add.collider(this.jugadorIzquierdo, this.lavaGrupo, this.collisionLava, null, this);
         this.physics.add.collider(this.jugadorDerecho, this.lavaGrupo, this.collisionLava, null, this);
         this.physics.add.collider(this.jugadorIzquierdo, this.obstaculos, this.collisionObstaculo, null, this);
@@ -162,7 +157,7 @@ export default class Nivel extends Phaser.Scene {
             capaGrisIzquierda.setScale(1, 5);
             const rectanguloNegroIzquierda = this.add.rectangle(
                 this.camaraIzquierdo.scrollX + this.camaraIzquierdo.width / 2,
-                this.camaraIzquierdo.scrollY + this.camaraIzquierdo.height / 2+20,
+                this.camaraIzquierdo.scrollY + this.camaraIzquierdo.height / 2 + 20,
                 this.camaraIzquierdo.width, 
                 this.camaraIzquierdo.height * 0.15,
                 0x000000
@@ -175,7 +170,7 @@ export default class Nivel extends Phaser.Scene {
             ).setOrigin(0.5);
             const mensajeAdicionalPerdisteIzquierda = this.add.text(
                 this.camaraIzquierdo.scrollX + this.camaraIzquierdo.width / 2, 
-                this.camaraIzquierdo.scrollY + this.camaraIzquierdo.height / 2+40, 
+                this.camaraIzquierdo.scrollY + this.camaraIzquierdo.height / 2 + 40, 
                 "Espera a la siguiente ronda",
                 { fontFamily: 'Arial', fontSize: 20, color: '#ffffff' }
             ).setOrigin(0.5);
@@ -191,7 +186,7 @@ export default class Nivel extends Phaser.Scene {
             ).setOrigin(0);
             const rectanguloNegroDerecha = this.add.rectangle(
                 this.camaraDerecha.scrollX + this.camaraDerecha.width / 2,
-                this.camaraDerecha.scrollY + this.camaraDerecha.height / 2+20,
+                this.camaraDerecha.scrollY + this.camaraDerecha.height / 2 + 20,
                 this.camaraDerecha.width,
                 this.camaraDerecha.height * 0.15, 
                 0x000000
@@ -204,12 +199,36 @@ export default class Nivel extends Phaser.Scene {
             ).setOrigin(0.5);
             const mensajeAdicionalPerdisteDerecha = this.add.text(
                 this.camaraDerecha.scrollX + this.camaraDerecha.width / 2, 
-                this.camaraDerecha.scrollY + this.camaraDerecha.height / 2+40, 
+                this.camaraDerecha.scrollY + this.camaraDerecha.height / 2 + 40, 
                 "Espera a la siguiente ronda",
                 { fontFamily: 'Arial', fontSize: 20, color: '#ffffff' }
             ).setOrigin(0.5);
         }
-    }
+    
+        if (!this.jugadorIzquierdo.puedeMoverse && !this.jugadorDerecho.puedeMoverse) {
+            let ganador = null;
+            let mensajeEmpate = false;
+    
+            if (this.jugadorIzquierdo.monedas > this.jugadorDerecho.monedas) {
+                ganador = this.jugadorIzquierdo;
+            } else if (this.jugadorDerecho.monedas > this.jugadorIzquierdo.monedas) {
+                ganador = this.jugadorDerecho;
+            } else {
+                mensajeEmpate = true;
+            }
+    
+            this.scene.stop("ui");
+            this.scene.start("PantallaFinRonda", { 
+                ganador: ganador, 
+                perdedor: mensajeEmpate ? null : (ganador === this.jugadorIzquierdo ? this.jugadorDerecho : this.jugadorIzquierdo), 
+                nivel: this.nivel, 
+                maxNivel: this.maxNivel,
+                autoJugador1: this.autoJugador1,
+                autoJugador2: this.autoJugador2,
+                empate: mensajeEmpate
+            });
+        }
+    }    
 
     collisionObstaculo(jugador, obstaculo) {
         if (obstaculo.exploto) return;
