@@ -11,6 +11,8 @@ export default class Jugador extends Phaser.Physics.Arcade.Sprite {
     velocidadTurboY;
     monedas;
     numeroRondasGanadas;
+    anguloMaximo;
+    incrementoAngulo;
 
     constructor(scene, x, y, texture, ladoEquipo) {
         super(scene, x, y, texture);
@@ -26,6 +28,8 @@ export default class Jugador extends Phaser.Physics.Arcade.Sprite {
         this.monedas = 0;
         this.numeroRondasGanadas = 0;
         this.textura = texture;
+        this.anguloMaximo = 360; 
+        this.incrementoAngulo = 1; 
     }
 
     recibirImpacto() {
@@ -34,7 +38,6 @@ export default class Jugador extends Phaser.Physics.Arcade.Sprite {
         } else if (this.ladoEquipo === "derecha") {
             this.scene.vidasEquipoDerecha -= 1;
         }
-
         this.contadorImpactos += 1;
     }
 
@@ -43,7 +46,6 @@ export default class Jugador extends Phaser.Physics.Arcade.Sprite {
             this.monedas += cantidadMonedas;
             events.emit("moneda-recolectada", "izquierda", this.monedas);
         } else if (this.ladoEquipo === "derecha") {
-            /* this.scene.monedasEquipoDerecha += 1; */
             this.monedas += cantidadMonedas;
             events.emit("moneda-recolectada", "derecha", this.monedas);
         }
@@ -54,29 +56,31 @@ export default class Jugador extends Phaser.Physics.Arcade.Sprite {
             this.setVelocity(0);
             return;
         }
+
         if (controles.left.isDown) {
-            this.setVelocityX(-150);
-            this.setAngle(-10);
+            this.setAngle(this.angle - this.incrementoAngulo);
         } else if (controles.right.isDown) {
-            this.setVelocityX(150);
-            this.setAngle(10);
-        } else {
-            this.setAngle(0);
-            this.setVelocityX(0);
+            this.setAngle(this.angle + this.incrementoAngulo);
         }
 
-        if (controles.up.isDown) {
-            this.setVelocityY(this.velocidadTurboY);
-            if (controles.left.isDown) {
-                this.setAngle(-10); // Gira el sprite 45 grados hacia la izquierda
-            } else if (controles.right.isDown) {
-                this.setAngle(10); // Gira el sprite 45 grados hacia la derecha
-            } else {
-                this.setAngle(0); // Mantiene el sprite recto
-            }
-        } else {
-            this.setVelocityY(this.velocidadInicialY);
-            // this.setVelocityY(0);
+        // Mantener el ángulo dentro de los límites
+        if (this.angle > this.anguloMaximo) {
+            this.setAngle(this.anguloMaximo);
+        } else if (this.angle < -this.anguloMaximo) {
+            this.setAngle(-this.anguloMaximo);
         }
+
+        let velocidadY = this.velocidadInicialY;
+        if (controles.up.isDown) {
+            velocidadY = this.velocidadTurboY;
+        }
+
+        // Calcular la velocidad en X e Y en base al ángulo actual
+        const radianes = Phaser.Math.DegToRad(this.angle);
+        const velocidadX = Math.sin(radianes) * Math.abs(velocidadY);
+        const velocidadYAjustada = Math.cos(radianes) * velocidadY;
+
+        this.setVelocityX(velocidadX);
+        this.setVelocityY(velocidadYAjustada);
     }
 }
