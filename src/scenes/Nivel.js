@@ -4,6 +4,7 @@ import Lava from "../objetos/Lava";
 import BolaFuego from "../objetos/BolaFuego";
 import Moneda from "../objetos/Moneda";
 import Meta from "../objetos/Meta";
+import events from "./EventCenter";
 
 export default class Nivel extends Phaser.Scene {
     ganador;
@@ -138,6 +139,7 @@ export default class Nivel extends Phaser.Scene {
         this.camaraDerecha.startFollow(this.jugadorDerecho, true, 0.05, 0.05); 
         
         this.scene.launch("ui", { tiempo: (this.map.heightInPixels / this.jugadorIzquierdo.velocidadInicialY) * -0.75 });
+        events.on("findetiempo", this.handleFinTiempo, this);
     }
 
     update() {
@@ -148,34 +150,9 @@ export default class Nivel extends Phaser.Scene {
     collisionLava(jugador) {
         if (jugador === this.jugadorIzquierdo) {
             this.jugadorIzquierdo.puedeMoverse = false;
-            const mensajePerdisteIzquierda = this.add.text(
-                this.camaraIzquierdo.scrollX + this.camaraIzquierdo.width / 2, 
-                this.camaraIzquierdo.scrollY + this.camaraIzquierdo.height / 2, 
-                "Perdiste",
-                { fontFamily: 'Arial', fontSize: 28, color: '#ffffff' }
-            ).setOrigin(0.5);
-            const mensajeAdicionalPerdisteIzquierda = this.add.text(
-                this.camaraIzquierdo.scrollX + this.camaraIzquierdo.width / 2, 
-                this.camaraIzquierdo.scrollY + this.camaraIzquierdo.height / 2 + 40, 
-                "Espera a la siguiente ronda",
-                { fontFamily: 'Arial', fontSize: 20, color: '#ffffff' }
-            ).setOrigin(0.5);
         } else if (jugador === this.jugadorDerecho) { 
             this.jugadorDerecho.puedeMoverse = false;
-            const mensajePerdisteDerecha = this.add.text(
-                this.camaraDerecha.scrollX + this.camaraDerecha.width / 2, 
-                this.camaraDerecha.scrollY + this.camaraDerecha.height / 2, 
-                "Perdiste",
-                { fontFamily: 'Arial', fontSize: 28, color: '#ffffff' }
-            ).setOrigin(0.5);
-            const mensajeAdicionalPerdisteDerecha = this.add.text(
-                this.camaraDerecha.scrollX + this.camaraDerecha.width / 2, 
-                this.camaraDerecha.scrollY + this.camaraDerecha.height / 2 + 40, 
-                "Espera a la siguiente ronda",
-                { fontFamily: 'Arial', fontSize: 20, color: '#ffffff' }
-            ).setOrigin(0.5);
         }
-    
         if (!this.jugadorIzquierdo.puedeMoverse && !this.jugadorDerecho.puedeMoverse) {
             let ganador = null;
             let mensajeEmpate = false;
@@ -237,6 +214,32 @@ export default class Nivel extends Phaser.Scene {
     recolectarMoneda(jugador, moneda) {
         jugador.recolectarMoneda(moneda.cantidad);
         moneda.destroy();
+    }
+
+    // Método para manejar el evento de tiempo agotado
+    handleFinTiempo() {
+        let ganador = null;
+        let mensajeEmpate = false;
+
+        if (this.jugadorIzquierdo.monedas > this.jugadorDerecho.monedas) {
+            ganador = this.jugadorIzquierdo;
+        } else if (this.jugadorDerecho.monedas > this.jugadorIzquierdo.monedas) {
+            ganador = this.jugadorDerecho;
+        } else {
+            mensajeEmpate = true;
+        }
+
+        // Detener y lanzar la escena de fin de ronda con los resultados
+        this.scene.stop("ui");
+        this.scene.start("PantallaFinRonda", { 
+            ganador: ganador,
+            perdedor: mensajeEmpate ? null : (ganador === this.jugadorIzquierdo ? this.jugadorDerecho : this.jugadorIzquierdo),
+            nivel: this.nivel,
+            maxNivel: this.maxNivel,
+            autoJugador1: this.autoJugador1,
+            autoJugador2: this.autoJugador2,
+            empate: mensajeEmpate
+        });
     }
 
     establecerGanador(jugador) {

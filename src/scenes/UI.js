@@ -11,7 +11,7 @@ export default class UI extends Phaser.Scene {
   }
 
   init(data) {
-    this.tiempoInicial = data.tiempo;
+    this.tiempoInicial = data.tiempo|| 20;
     this.contadorTiempo = this.tiempoInicial;
     this.temporizadorTexto = this.add.text(this.scale.width / 2, 80, `${this.contadorTiempo}`, {
       fontFamily: "AlarmClock",
@@ -52,6 +52,14 @@ export default class UI extends Phaser.Scene {
         this.textoDerecha.setText(`${numero}`);
       }
     });
+    
+    // Configuración del evento de tiempo
+    this.time.addEvent({
+        delay: 1000,
+        callback: this.actualizarTiempo,
+        callbackScope: this,
+        loop: true,
+      });
   }
 
   colliderEvent(data) {
@@ -143,9 +151,9 @@ export default class UI extends Phaser.Scene {
   actualizarTiempo() {
     this.contadorTiempo -= 1;
     this.temporizadorTexto.setText(`${this.contadorTiempo}`);
-
-    if (this.contadorTiempo <= 0) {
-      this.scene.start("PantallaGameOver");
+    // Emitir el evento 'findetiempo' cuando el contador llegue a cero
+    if (this.contadorTiempo === 0) {
+        events.emit("findetiempo");
     }
   }
 }
