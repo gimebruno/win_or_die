@@ -38,7 +38,9 @@ export default class Nivel extends Phaser.Scene {
     create() {
         const mapaClave = `nivel${this.nivel}`;
         this.map = this.make.tilemap({ key: mapaClave });
-        const tiled = this.map.addTilesetImage("atlas-lava", "atlas-lava2");
+        const tiled = this.map.addTilesetImage("atlas-lava", "atlas-rutas");
+        const backgroundMapa = this.map.addTilesetImage("background", "backgrounds");
+        this.map.createLayer("background", backgroundMapa);
         this.map.createLayer("piso", tiled);
         this.map.createLayer("piso", tiled);
         this.map.createLayer("decoracion", tiled);
