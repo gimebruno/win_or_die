@@ -11,7 +11,7 @@ export default class UI extends Phaser.Scene {
   }
 
   init(data) {
-    this.tiempoInicial = data.tiempo|| 20;
+    this.tiempoInicial = data.tiempo|| 60;
     this.contadorTiempo = this.tiempoInicial;
     this.temporizadorTexto = this.add.text(this.scale.width / 2, 80, `${this.contadorTiempo}`, {
       fontFamily: "AlarmClock",

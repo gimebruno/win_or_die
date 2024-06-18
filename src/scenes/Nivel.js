@@ -112,6 +112,7 @@ export default class Nivel extends Phaser.Scene {
         this.physics.add.overlap(this.jugadorDerecho, this.monedas, this.recolectarMoneda, null, this);
         this.physics.add.overlap(this.jugadorIzquierdo, this.metas, this.establecerGanador, null, this);
         this.physics.add.overlap(this.jugadorDerecho, this.metas, this.establecerGanador, null, this);
+        this.physics.add.collider(this.jugadorIzquierdo, this.jugadorDerecho, this.collisionJugadores, null, this);
 
         // Configuracion de los controles de los jugadores:
         this.controlesDerechos = this.input.keyboard.createCursorKeys();
@@ -145,7 +146,18 @@ export default class Nivel extends Phaser.Scene {
     update() {
         this.jugadorDerecho.mover(this.controlesDerechos);
         this.jugadorIzquierdo.mover(this.controlesIzquierdos);
+    
+        // Verificar colisión entre jugadores y ejecutar función
+        if (Phaser.Geom.Intersects.RectangleToRectangle(this.jugadorIzquierdo.getBounds(), this.jugadorDerecho.getBounds())) {
+            this.collisionJugadores(this.jugadorIzquierdo, this.jugadorDerecho);
+        }
     }
+    
+    collisionJugadores(jugador1, jugador2) {
+        // Ejemplo: Al colisionar, ambos jugadores cambian de color temporalmente
+        jugador1.setTint(0xff0000); // Tinte rojo para jugador 1
+        jugador2.setTint(0x00ff00); // Tinte verde para jugador 2
+    }    
   
     collisionLava(jugador) {
         if (jugador === this.jugadorIzquierdo) {

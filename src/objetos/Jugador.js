@@ -100,4 +100,3 @@ export default class Jugador extends Phaser.Physics.Arcade.Sprite {
         this.setVelocityY(velocidadYAjustada);
     }
 }
-
