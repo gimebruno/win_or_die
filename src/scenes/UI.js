@@ -1,25 +1,9 @@
 import Phaser from "phaser";
 import events from "./EventCenter";
 
-// Manejador de eventos centralizados para comunicacion de componentes
-
-// Importacion
-// import events from './EventCenter'
-
-// Emisor de mensaje de difusion
-// Recibe el nombre del mensaje y los valores de parametro
-// events.emit('health-changed', this.health)
-
-// Receptor de mensaje, por ejemplo escena de UI
-// Recibe el nombre del mensaje y una funcion callback a ejecutar
-// events.on('health-changed', this.handleHealthChanged, this)
-
 export default class UI extends Phaser.Scene {
-
   tiempoInicial;
-
   contadorTiempo;
-
   temporizadorTexto;
 
   constructor() {
@@ -48,15 +32,6 @@ export default class UI extends Phaser.Scene {
   }
 
   create() {
-    this.colliderCount = 0;
-    // add text with count collider and date
-    /*  this.text = this.add.text(10, 10, `Collider count: ${this.colliderCount}`, {
-        font: "16px Courier",
-        fill: "#00ff00",
-      }); */
-
-
-
     this.time.addEvent({
       delay: 1000,
       callback: this.actualizarTiempo,
@@ -66,12 +41,10 @@ export default class UI extends Phaser.Scene {
 
     // add listener to the event
     events.on("collider-event", this.colliderEvent, this);
-
     this.crearTemporizador();
     this.crearContadoresMonedas();
 
     // crea el evento para actualizar el contador de monedas dependiendo del juegador 
-
     events.on("moneda-recolectada", (ladoEquipo, numero) => {
       if (ladoEquipo === "izquierda") {
         this.textoIzquierda.setText(`${numero}`);
@@ -81,10 +54,7 @@ export default class UI extends Phaser.Scene {
     });
   }
 
-
-
   colliderEvent(data) {
-
     // update text
     this.colliderCount += 1;
     this.text.setText(
@@ -120,7 +90,6 @@ export default class UI extends Phaser.Scene {
     const contenedor = this.add.container(this.scale.width / 2, this.scale.height - background.height);
 
     // Crea un texto en la parte superior iz y derecha. con Jugador/a 1 y Jugador/a 2
-
     const textoJugador1 = this.add.text(-background.width + (background.width * 0.75), 0 + 14, "Jugador/a 1", {
       fontFamily: "AnyMale",
       fontSize: "16px",
@@ -169,10 +138,7 @@ export default class UI extends Phaser.Scene {
     }).setOrigin(0.5);
 
     contenedor.add([background, btnWAD, textoJugador1, btnFlechas, textoJugador2, this.textoIzquierda, this.textoDerecha]);
-
-
   }
-
 
   actualizarTiempo() {
     this.contadorTiempo -= 1;

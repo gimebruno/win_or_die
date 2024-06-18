@@ -7,12 +7,13 @@ export default class Jugador extends Phaser.Physics.Arcade.Sprite {
     ladoEquipo;
     puedeMoverse;
     camara;
-    velocidadInicialY;
-    velocidadTurboY;
     monedas;
     numeroRondasGanadas;
     anguloMaximo;
     incrementoAngulo;
+    velocidadYActual; // Nueva propiedad para almacenar la velocidad actual
+    velocidadYMinima;
+    velocidadYMaxima;
 
     constructor(scene, x, y, texture, ladoEquipo) {
         super(scene, x, y, texture);
@@ -23,13 +24,19 @@ export default class Jugador extends Phaser.Physics.Arcade.Sprite {
         this.body.setAllowGravity(false);
         this.ladoEquipo = ladoEquipo;
         this.puedeMoverse = true;
-        this.velocidadInicialY = -150;
-        this.velocidadTurboY = -350;
         this.monedas = 0;
         this.numeroRondasGanadas = 0;
         this.textura = texture;
-        this.anguloMaximo = 360; 
-        this.incrementoAngulo = 1; 
+        this.anguloMaximo = 360;
+        this.incrementoAngulo = 1;
+        this.velocidadYActual = 0; // Inicializar velocidad actual en 0
+        this.velocidadYMinima = 0; // Velocidad mínima en 0
+        this.velocidadYMaxima = 350; // Velocidad máxima permitida
+
+        // Suscribir métodos
+        this.recibirImpacto = this.recibirImpacto.bind(this);
+        this.recolectarMoneda = this.recolectarMoneda.bind(this);
+        this.mover = this.mover.bind(this);
     }
 
     recibirImpacto() {
@@ -70,17 +77,27 @@ export default class Jugador extends Phaser.Physics.Arcade.Sprite {
             this.setAngle(-this.anguloMaximo);
         }
 
-        let velocidadY = this.velocidadInicialY;
+        // Ajustar la velocidad Y según las teclas presionadas
         if (controles.up.isDown) {
-            velocidadY = this.velocidadTurboY;
+            this.velocidadYActual += 10; 
+        } else if (controles.down.isDown) {
+            this.velocidadYActual -= 10; 
+        }
+
+        // Limitar la velocidad Y dentro de los rangos establecidos
+        if (this.velocidadYActual > this.velocidadYMaxima) {
+            this.velocidadYActual = this.velocidadYMaxima;
+        } else if (this.velocidadYActual < this.velocidadYMinima) {
+            this.velocidadYActual = this.velocidadYMinima;
         }
 
         // Calcular la velocidad en X e Y en base al ángulo actual
         const radianes = Phaser.Math.DegToRad(this.angle);
-        const velocidadX = Math.sin(radianes) * Math.abs(velocidadY);
-        const velocidadYAjustada = Math.cos(radianes) * velocidadY;
+        const velocidadX = Math.sin(radianes) * Math.abs(this.velocidadYActual);
+        const velocidadYAjustada = -Math.cos(radianes) * this.velocidadYActual; 
 
         this.setVelocityX(velocidadX);
         this.setVelocityY(velocidadYAjustada);
     }
 }
+

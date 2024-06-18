@@ -8,7 +8,6 @@ export default class Boton {
             .setOrigin(0.5)
             .setInteractive({ useHandCursor: true })
             .on("pointerdown", () => {
-                // scene.sonidos.sound.btnSFX.play()
                 callback();
             })
             .on("pointerover", () => this.container.setScale(escala + 0.1))
