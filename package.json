@@ -15,12 +15,8 @@
     "url": "https://github.com/ourcade/phaser3-parcel-template.git"
   },
   "homepage": "https://github.com/ourcade/phaser3-parcel-template",
-  "devDependencies": {
-   
-  },
-  "dependencies": {
-    
-  },
+  "devDependencies": {},
+  "dependencies": {},
   "parcelCleanPaths": [
     "dist"
   ],
@@ -28,7 +24,4 @@
     "staticPath": "public",
     "watcherGlob": "**"
   },
-  "lint-staged": {
-    "*.js": "eslint --cache --fix"
-  }
 }

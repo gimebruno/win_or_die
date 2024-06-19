@@ -27,7 +27,7 @@ export default class Nivel extends Phaser.Scene {
 
     init(data) {
         this.nivel = data.nivel || 1;
-        this.maxNivel = data.maxNivel || 4; 
+        this.maxNivel = data.maxNivel || 4;
         this.tiempo = 30;
         this.monedasEquipoIzquierda = 0;
         this.monedasEquipoDerecha = 0;
@@ -55,7 +55,7 @@ export default class Nivel extends Phaser.Scene {
 
         this.jugadorIzquierdo = new Jugador(this, spawnJugador1.x, spawnJugador1.y, this.autoJugador1, "izquierda");
         this.jugadorDerecho = new Jugador(this, spawnJugador2.x, spawnJugador2.y, this.autoJugador2, "derecha");
-        
+
         // Creacion de grupos de obstaculos:
         this.lavaGrupo = this.physics.add.group({
             immovable: true,
@@ -125,13 +125,13 @@ export default class Nivel extends Phaser.Scene {
         this.camaraIzquierdo.scrollY = 0;
         this.camaraIzquierdo.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels);
         this.camaraIzquierdo.startFollow(this.jugadorIzquierdo, true, 0.05, 0.05);
-      // Ajustes en los límites y la configuración de la cámara derecha
+        // Ajustes en los límites y la configuración de la cámara derecha
         this.camaraDerecha = this.cameras.add(this.scale.width / 2, 0, this.scale.width / 2, this.scale.height);
-        this.camaraDerecha.scrollX = this.map.widthInPixels / 2; 
+        this.camaraDerecha.scrollX = this.map.widthInPixels / 2;
         this.camaraDerecha.scrollY = 0;
-        this.camaraDerecha.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels); 
-        this.camaraDerecha.startFollow(this.jugadorDerecho, true, 0.05, 0.05); 
-        
+        this.camaraDerecha.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels);
+        this.camaraDerecha.startFollow(this.jugadorDerecho, true, 0.05, 0.05);
+
         this.scene.launch("ui", { tiempo: (this.map.heightInPixels / this.jugadorIzquierdo.velocidadInicialY) * -0.75 });
         events.on("findetiempo", this.handleFinTiempo, this);
     }
@@ -139,25 +139,25 @@ export default class Nivel extends Phaser.Scene {
     update() {
         this.jugadorDerecho.mover(this.controlesDerechos);
         this.jugadorIzquierdo.mover(this.controlesIzquierdos);
-    
+
         // Verificar colisión entre jugadores y ejecutar función
         if (Phaser.Geom.Intersects.RectangleToRectangle(this.jugadorIzquierdo.getBounds(), this.jugadorDerecho.getBounds())) {
             this.collisionJugadores(this.jugadorIzquierdo, this.jugadorDerecho);
         }
     }
-    
+
     collisionJugadores(jugador1, jugador2) {
         // Ejemplo: Al colisionar, ambos jugadores cambian de color temporalmente
         jugador1.setTint(0xff0000); // Tinte rojo para jugador 1
         jugador2.setTint(0x00ff00); // Tinte verde para jugador 2
-    }    
+    }
     collisionLava(jugador) {
         if (jugador === this.jugadorIzquierdo && !this.jugadorIzquierdo.inmune) {
             this.jugadorIzquierdo.velocidadYActual *= 0.7;
             this.time.addEvent({
                 delay: 800,
                 callback: () => {
-          //this.jugadorIzquierdo.inmune = true;
+                    this.jugadorIzquierdo.inmune = true;
                 },
                 callbackScope: this
             });
@@ -184,8 +184,8 @@ export default class Nivel extends Phaser.Scene {
                     this.jugadorDerecho.inmune = false;
                 },
                 callbackScope: this
-            });
-        }
+            });
+        }
     }
     collisionObstaculo(jugador, obstaculo) {
         if (obstaculo.exploto) return;
@@ -196,7 +196,7 @@ export default class Nivel extends Phaser.Scene {
         const inicioColor = Phaser.Display.Color.ValueToColor(jugadorLocal.tint);
         const finalColor = Phaser.Display.Color.ValueToColor(0x000000);
 
-    this.tweens.addCounter({
+        this.tweens.addCounter({
             from: 0,
             to: 100,
             duration: 50,
@@ -218,7 +218,7 @@ export default class Nivel extends Phaser.Scene {
         this.camaraIzquierdo.shake(100, 0.01);
         this.camaraIzquierdo.flash(100, 255, 0, 0);
     }
-    
+
     // eslint-disable-next-line class-methods-use-this
     recolectarMoneda(jugador, moneda) {
         jugador.recolectarMoneda(moneda.cantidad);
@@ -240,7 +240,7 @@ export default class Nivel extends Phaser.Scene {
 
         // Detener y lanzar la escena de fin de ronda con los resultados
         this.scene.stop("ui");
-        this.scene.start("PantallaFinRonda", { 
+        this.scene.start("PantallaFinRonda", {
             ganador: ganador,
             perdedor: mensajeEmpate ? null : (ganador === this.jugadorIzquierdo ? this.jugadorDerecho : this.jugadorIzquierdo),
             nivel: this.nivel,
@@ -258,7 +258,7 @@ export default class Nivel extends Phaser.Scene {
         const jugadores = [this.jugadorIzquierdo, this.jugadorDerecho];
         const jugadorPerdedor = jugadores.find(j => j !== jugador);
         console.log(`Ganador: ${this.ganador.textura}, Nivel actual: ${this.nivel}`);
-        
+
         // Guardar los datos de ambos autos
         const datosAutos = {
             autoJugador1: this.autoJugador1,
@@ -266,10 +266,10 @@ export default class Nivel extends Phaser.Scene {
         };
 
         this.scene.stop("ui");
-        this.scene.start("PantallaFinRonda", { 
-            ganador: this.ganador, 
-            perdedor: jugadorPerdedor, 
-            nivel: this.nivel, 
+        this.scene.start("PantallaFinRonda", {
+            ganador: this.ganador,
+            perdedor: jugadorPerdedor,
+            nivel: this.nivel,
             maxNivel: this.maxNivel,
             ...datosAutos
         });
