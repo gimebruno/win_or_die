@@ -81,31 +81,27 @@ export default class Nivel extends Phaser.Scene {
             const lavaPhysics = new Lava(this, lava.x, lava.y);
             this.lavaGrupo.add(lavaPhysics);
         }
-
-        // crear los boscatulos en el mapa, usando las clase de BolaFuego
+        // crear los obstaculos en el mapa, usando las clase de BolaFuego
         for (let i = 0; i < todosObsculos.length; i += 1) {
             const obstaculo = todosObsculos[i];
             const obstaculoPhysics = new BolaFuego(this, obstaculo.x, obstaculo.y);
             this.obstaculos.add(obstaculoPhysics);
         }
-
         // Crear las monedas en el mapa usando la clase Moneda
         for (let i = 0; i < todosMonedas.length; i += 1) {
             const moneda = todosMonedas[i];
             const monedaPhysics = new Moneda(this, moneda.x, moneda.y, "moneda");
             this.monedas.add(monedaPhysics);
         }
-
         // Crear las metas en el mapa
         for (let i = 0; i < todosMetas.length; i += 1) {
             const meta = todosMetas[i];
             const metaPhysics = new Meta(this, meta.x, meta.y - 32);
             this.metas.add(metaPhysics);
         }
-
         // Configuracion de las colisiones:
-        this.physics.add.collider(this.jugadorIzquierdo, this.lavaGrupo, this.collisionLava, null, this);
-        this.physics.add.collider(this.jugadorDerecho, this.lavaGrupo, this.collisionLava, null, this);
+        this.physics.add.overlap(this.jugadorIzquierdo, this.lavaGrupo, this.collisionLava, null, this);
+        this.physics.add.overlap(this.jugadorDerecho, this.lavaGrupo, this.collisionLava, null, this);
         this.physics.add.collider(this.jugadorIzquierdo, this.obstaculos, this.collisionObstaculo, null, this);
         this.physics.add.collider(this.jugadorDerecho, this.obstaculos, this.collisionObstaculo, null, this);
         this.physics.add.overlap(this.jugadorIzquierdo, this.monedas, this.recolectarMoneda, null, this);
@@ -122,17 +118,14 @@ export default class Nivel extends Phaser.Scene {
             left: Phaser.Input.Keyboard.KeyCodes.A,
             right: Phaser.Input.Keyboard.KeyCodes.D
         });
-
         this.physics.world.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels);
-
         // Configuracion de las camaras:
         this.camaraIzquierdo = this.cameras.main.setSize(this.scale.width / 2, this.scale.height);
         this.camaraIzquierdo.scrollX = 0;
         this.camaraIzquierdo.scrollY = 0;
         this.camaraIzquierdo.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels);
         this.camaraIzquierdo.startFollow(this.jugadorIzquierdo, true, 0.05, 0.05);
-    
-        // Ajustes en los límites y la configuración de la cámara derecha
+      // Ajustes en los límites y la configuración de la cámara derecha
         this.camaraDerecha = this.cameras.add(this.scale.width / 2, 0, this.scale.width / 2, this.scale.height);
         this.camaraDerecha.scrollX = this.map.widthInPixels / 2; 
         this.camaraDerecha.scrollY = 0;
@@ -158,38 +151,42 @@ export default class Nivel extends Phaser.Scene {
         jugador1.setTint(0xff0000); // Tinte rojo para jugador 1
         jugador2.setTint(0x00ff00); // Tinte verde para jugador 2
     }    
-  
     collisionLava(jugador) {
-        if (jugador === this.jugadorIzquierdo) {
-            this.jugadorIzquierdo.puedeMoverse = false;
-        } else if (jugador === this.jugadorDerecho) { 
-            this.jugadorDerecho.puedeMoverse = false;
-        }
-        if (!this.jugadorIzquierdo.puedeMoverse && !this.jugadorDerecho.puedeMoverse) {
-            let ganador = null;
-            let mensajeEmpate = false;
-    
-            if (this.jugadorIzquierdo.monedas > this.jugadorDerecho.monedas) {
-                ganador = this.jugadorIzquierdo;
-            } else if (this.jugadorDerecho.monedas > this.jugadorIzquierdo.monedas) {
-                ganador = this.jugadorDerecho;
-            } else {
-                mensajeEmpate = true;
-            }
-    
-            this.scene.stop("ui");
-            this.scene.start("PantallaFinRonda", { 
-                ganador: ganador, 
-                perdedor: mensajeEmpate ? null : (ganador === this.jugadorIzquierdo ? this.jugadorDerecho : this.jugadorIzquierdo), 
-                nivel: this.nivel, 
-                maxNivel: this.maxNivel,
-                autoJugador1: this.autoJugador1,
-                autoJugador2: this.autoJugador2,
-                empate: mensajeEmpate
+        if (jugador === this.jugadorIzquierdo && !this.jugadorIzquierdo.inmune) {
+            this.jugadorIzquierdo.velocidadYActual *= 0.7;
+            this.time.addEvent({
+                delay: 800,
+                callback: () => {
+          //this.jugadorIzquierdo.inmune = true;
+                },
+                callbackScope: this
             });
-        }
-    }    
 
+            this.time.addEvent({
+                delay: 1000,
+                callback: () => {
+                    this.jugadorIzquierdo.inmune = false;
+                },
+                callbackScope: this
+            });
+        } else if (jugador === this.jugadorDerecho && !this.jugadorDerecho.inmune) {
+            this.jugadorDerecho.velocidadYActual *= 0.7;
+            this.time.addEvent({
+                delay: 800,
+                callback: () => {
+                    this.jugadorDerecho.inmune = true;
+                },
+                callbackScope: this
+            });
+            this.time.addEvent({
+                delay: 1000,
+                callback: () => {
+                    this.jugadorDerecho.inmune = false;
+                },
+                callbackScope: this
+            });
+        }
+    }
     collisionObstaculo(jugador, obstaculo) {
         if (obstaculo.exploto) return;
         const jugadorLocal = jugador;
@@ -199,7 +196,7 @@ export default class Nivel extends Phaser.Scene {
         const inicioColor = Phaser.Display.Color.ValueToColor(jugadorLocal.tint);
         const finalColor = Phaser.Display.Color.ValueToColor(0x000000);
 
-        this.tweens.addCounter({
+    this.tweens.addCounter({
             from: 0,
             to: 100,
             duration: 50,
