@@ -10,11 +10,11 @@ export default class Jugador extends Phaser.Physics.Arcade.Sprite {
     monedas;
     numeroRondasGanadas;
     anguloMaximo;
+    inmune;
     incrementoAngulo;
     velocidadYActual; // Nueva propiedad para almacenar la velocidad actual
     velocidadYMinima;
     velocidadYMaxima;
-    inmune;
 
     constructor(scene, x, y, texture, ladoEquipo) {
         super(scene, x, y, texture);
@@ -33,7 +33,7 @@ export default class Jugador extends Phaser.Physics.Arcade.Sprite {
         this.velocidadYActual = 0; // Inicializar velocidad actual en 0
         this.velocidadYMinima = 0; // Velocidad mínima en 0
         this.velocidadYMaxima = 350; // Velocidad máxima permitida
-        this.inmune=false;
+        this.inmune = false;
         // Suscribir métodos
         this.recibirImpacto = this.recibirImpacto.bind(this);
         this.recolectarMoneda = this.recolectarMoneda.bind(this);
@@ -80,9 +80,9 @@ export default class Jugador extends Phaser.Physics.Arcade.Sprite {
 
         // Ajustar la velocidad Y según las teclas presionadas
         if (controles.up.isDown) {
-            this.velocidadYActual += 10; 
+            this.velocidadYActual += 10;
         } else if (controles.down.isDown) {
-            this.velocidadYActual -= 10; 
+            this.velocidadYActual -= 10;
         }
 
         // Limitar la velocidad Y dentro de los rangos establecidos
@@ -95,7 +95,7 @@ export default class Jugador extends Phaser.Physics.Arcade.Sprite {
         // Calcular la velocidad en X e Y en base al ángulo actual
         const radianes = Phaser.Math.DegToRad(this.angle);
         const velocidadX = Math.sin(radianes) * Math.abs(this.velocidadYActual);
-        const velocidadYAjustada = -Math.cos(radianes) * this.velocidadYActual; 
+        const velocidadYAjustada = -Math.cos(radianes) * this.velocidadYActual;
 
         this.setVelocityX(velocidadX);
         this.setVelocityY(velocidadYAjustada);
