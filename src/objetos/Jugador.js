@@ -30,9 +30,9 @@ export default class Jugador extends Phaser.Physics.Arcade.Sprite {
         this.textura = texture;
         this.anguloMaximo = 360;
         this.incrementoAngulo = 1;
-        this.velocidadYActual = 0; // Inicializar velocidad actual en 0
-        this.velocidadYMinima = 0; // Velocidad mínima en 0
-        this.velocidadYMaxima = 350; // Velocidad máxima permitida
+        this.velocidadYActual = 0; 
+        this.velocidadYMinima = 0; 
+        this.velocidadYMaxima = 350; 
         this.colisionado = false;
         this.inmune = false;
         // Suscribir métodos
@@ -100,5 +100,8 @@ export default class Jugador extends Phaser.Physics.Arcade.Sprite {
 
         this.setVelocityX(velocidadX);
         this.setVelocityY(velocidadYAjustada);
+
+        // Emitir evento de velocidad cambiada
+        events.emit('velocidad-cambiada', this.ladoEquipo, this.velocidadYActual);
     }
 }
