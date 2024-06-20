@@ -23,5 +23,5 @@
   "staticFiles": {
     "staticPath": "public",
     "watcherGlob": "**"
-  },
+  }
 }

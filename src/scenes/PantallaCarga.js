@@ -8,11 +8,8 @@ export default class PantallaCarga extends Phaser.Scene {
     preload() {
 
         // Backgrounds
-        this.load.image('fondo-carga', 'assets/fondos/fondo-carga.jpeg')
-        this.load.image('fondo-menu', 'assets/fondos/fondo-menu.jpeg')
-        this.load.image('fondo-desierto', 'assets/fondos/fondodesierto.jpeg')
+        this.load.image('fondo', 'assets/fondos/fondo.png')
         this.load.image('fondo-boton', 'assets/sprites/fondo-boton.png')
-        this.load.image('fondo-control', 'assets/fondos/fondo-control.png');
 
         // Autos
         this.load.image('auto1', 'assets/sprites/autos/auto1.png');
@@ -40,9 +37,6 @@ export default class PantallaCarga extends Phaser.Scene {
         this.load.image('atlas-rutas','assets/atlas/atlas-rutas.png');
         this.load.image('backgrounds','assets/atlas/backgrounds-mapas.png');
 
-        
-
-
         this.load.image("moneda", "assets/sprites/moneda.png");
         this.load.image('lava', 'assets/sprites/lava.png');
         this.load.image('meta', 'assets/sprites/meta.png');
@@ -52,14 +46,12 @@ export default class PantallaCarga extends Phaser.Scene {
         this.load.image('temporizador-ui', 'assets/sprites/temporizador.png');
         this.load.image('contador-ui', 'assets/sprites/contador.png');
 
-
-
         this.barraDeCarga();
     }
 
 
     create() {
-        this.add.image(0, 0, 'fondo-carga').setOrigin(0);
+        this.add.image(0, 0, 'fondo').setOrigin(0);
 
         // crea la animacion de bola-fuego-spritesheet que tiene dos frames
         this.anims.create({

@@ -25,7 +25,7 @@ export default class PantallaFinRonda extends Phaser.Scene {
     }
 
     create() {
-        this.add.image(0, 0, 'fondo-carga').setOrigin(0);
+        this.add.image(0, 0, 'fondo').setOrigin(0);
         this.add.text((this.scale.width / 2), (this.scale.height / 2) - 310, "Ronda completada", { fontSize: '80px', fontStyle: 'bold', color: 'white', fontFamily: 'AnyMale', stroke: 'black', strokeThickness: 6 }).setOrigin(0.5);
 
         if (this.empate) {
