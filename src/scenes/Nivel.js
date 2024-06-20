@@ -147,10 +147,31 @@ export default class Nivel extends Phaser.Scene {
     }
 
     collisionJugadores(jugador1, jugador2) {
-        // Ejemplo: Al colisionar, ambos jugadores cambian de color temporalmente
-        jugador1.setTint(0xff0000); // Tinte rojo para jugador 1
-        jugador2.setTint(0x00ff00); // Tinte verde para jugador 2
-    }
+        if (!jugador1.colisionado || !jugador2.colisionado) {
+            // Guardar el color original de los jugadores
+            const originalTint1 = jugador1.tint;
+            const originalTint2 = jugador2.tint;
+    
+            console.log('Colisión detectada. Cambiando color a rojo.');
+    
+            // Cambiar el color a rojo
+            jugador1.setTint(0xff0000); 
+            jugador2.setTint(0xff0000); 
+    
+            jugador1.colisionado = true;
+            jugador2.colisionado = true;
+    
+            // Volver al color original después de 1 segundo
+            this.time.delayedCall(500, () => {
+                console.log('Restaurando color original.');
+                jugador1.setTint(originalTint1);
+                jugador2.setTint(originalTint2);
+                jugador1.colisionado = false;
+                jugador2.colisionado = false;
+            }, [], this);
+        }
+    }    
+    
     collisionLava(jugador) {
         if (jugador === this.jugadorIzquierdo && !this.jugadorIzquierdo.inmune) {
             this.jugadorIzquierdo.velocidadYActual *= 0.7;
@@ -219,7 +240,6 @@ export default class Nivel extends Phaser.Scene {
         this.camaraIzquierdo.flash(100, 255, 0, 0);
     }
 
-    // eslint-disable-next-line class-methods-use-this
     recolectarMoneda(jugador, moneda) {
         jugador.recolectarMoneda(moneda.cantidad);
         moneda.destroy();

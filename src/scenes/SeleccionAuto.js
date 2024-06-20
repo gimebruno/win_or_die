@@ -15,6 +15,7 @@ export default class SeleccionAuto extends Phaser.Scene {
     }
 
     create() {
+        this.add.image(0, 0, 'fondo').setOrigin(0);
         const centerX = this.scale.width / 2;
         const centerY = this.scale.height / 2;
 

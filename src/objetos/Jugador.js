@@ -12,7 +12,7 @@ export default class Jugador extends Phaser.Physics.Arcade.Sprite {
     anguloMaximo;
     inmune;
     incrementoAngulo;
-    velocidadYActual; // Nueva propiedad para almacenar la velocidad actual
+    velocidadYActual; 
     velocidadYMinima;
     velocidadYMaxima;
 
@@ -33,6 +33,7 @@ export default class Jugador extends Phaser.Physics.Arcade.Sprite {
         this.velocidadYActual = 0; // Inicializar velocidad actual en 0
         this.velocidadYMinima = 0; // Velocidad mínima en 0
         this.velocidadYMaxima = 350; // Velocidad máxima permitida
+        this.colisionado = false;
         this.inmune = false;
         // Suscribir métodos
         this.recibirImpacto = this.recibirImpacto.bind(this);
