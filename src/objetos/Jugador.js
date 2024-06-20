@@ -32,9 +32,10 @@ export default class Jugador extends Phaser.Physics.Arcade.Sprite {
         this.incrementoAngulo = 1;
         this.velocidadYActual = 0; 
         this.velocidadYMinima = 0; 
-        this.velocidadYMaxima = 350; 
+        this.velocidadYMaxima = 398; 
         this.colisionado = false;
         this.inmune = false;
+        
         // Suscribir métodos
         this.recibirImpacto = this.recibirImpacto.bind(this);
         this.recolectarMoneda = this.recolectarMoneda.bind(this);
