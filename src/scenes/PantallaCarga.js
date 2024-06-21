@@ -59,7 +59,7 @@ export default class PantallaCarga extends Phaser.Scene {
 
 
     create() {
-        this.add.image(0, 0, 'fondo-carga').setOrigin(0);
+        this.add.image(0, 0, 'fondo-menu').setOrigin(0);
 
         // crea la animacion de bola-fuego-spritesheet que tiene dos frames
         this.anims.create({
