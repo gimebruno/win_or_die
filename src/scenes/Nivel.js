@@ -52,6 +52,7 @@ export default class Nivel extends Phaser.Scene {
         const todosObsculos = objectsLayer.objects.filter(obj => obj.type === "obstaculo");
         const todosMonedas = objectsLayer.objects.filter(obj => obj.type === "moneda");
         const todosMetas = objectsLayer.objects.filter(obj => obj.type === "meta");
+        const barrera = objectsLayer.objects.filter(obj => obj.type === "barrera");
 
         this.jugadorIzquierdo = new Jugador(this, spawnJugador1.x, spawnJugador1.y, this.autoJugador1, "izquierda");
         this.jugadorDerecho = new Jugador(this, spawnJugador2.x, spawnJugador2.y, this.autoJugador2, "derecha");
@@ -74,6 +75,10 @@ export default class Nivel extends Phaser.Scene {
         this.metas = this.physics.add.group({
             immovable: true,
             allowGravity: false
+        });
+        this.barrera = this.physics.add.group({
+            immovable: true,
+            allowGravity: false,
         });
 
         for (let i = 0; i < todasLavas.length; i += 1) {
@@ -99,6 +104,18 @@ export default class Nivel extends Phaser.Scene {
             const metaPhysics = new Meta(this, meta.x, meta.y - 32);
             this.metas.add(metaPhysics);
         }
+        //barreras
+        for (let i = 0; i < barrera.length; i += 1) {
+            const barreraData = barrera[i];
+            const barreraPhysics = this.physics.add.sprite(barreraData.x, barreraData.y, 'barrera');
+            barreraPhysics.setVisible(false);
+            this.barrera.add(barreraPhysics);
+        }
+        barrera.visible = false;
+        this.advertenciaTexto = this.add.text(300, 200, 'Vuelve a la ruta!!', {
+            fontSize: '120px',
+        }).setOrigin(0.5);
+        this.advertenciaTexto.setVisible(false);
         // Configuracion de las colisiones:
         this.physics.add.overlap(this.jugadorIzquierdo, this.lavaGrupo, this.collisionLava, null, this);
         this.physics.add.overlap(this.jugadorDerecho, this.lavaGrupo, this.collisionLava, null, this);
@@ -109,7 +126,8 @@ export default class Nivel extends Phaser.Scene {
         this.physics.add.overlap(this.jugadorIzquierdo, this.metas, this.establecerGanador, null, this);
         this.physics.add.overlap(this.jugadorDerecho, this.metas, this.establecerGanador, null, this);
         this.physics.add.collider(this.jugadorIzquierdo, this.jugadorDerecho, this.collisionJugadores, null, this);
-
+        this.physics.add.overlap(this.jugadorDerecho, this.barrera, this.retrocederAuto, null, this);
+        this.physics.add.overlap(this.jugadorIzquierdo, this.barrera, this.retrocederAuto, null, this);
         // Configuracion de los controles de los jugadores:
         this.controlesDerechos = this.input.keyboard.createCursorKeys();
         this.controlesIzquierdos = this.input.keyboard.addKeys({
@@ -151,16 +169,16 @@ export default class Nivel extends Phaser.Scene {
             // Guardar el color original de los jugadores
             const originalTint1 = jugador1.tint;
             const originalTint2 = jugador2.tint;
-    
+
             console.log('Colisión detectada. Cambiando color a rojo.');
-    
+
             // Cambiar el color a rojo
-            jugador1.setTint(0xff0000); 
-            jugador2.setTint(0xff0000); 
-    
+            jugador1.setTint(0xff0000);
+            jugador2.setTint(0xff0000);
+
             jugador1.colisionado = true;
             jugador2.colisionado = true;
-    
+
             // Volver al color original después de 1 segundo
             this.time.delayedCall(500, () => {
                 console.log('Restaurando color original.');
@@ -170,8 +188,8 @@ export default class Nivel extends Phaser.Scene {
                 jugador2.colisionado = false;
             }, [], this);
         }
-    }    
-    
+    }
+
     collisionLava(jugador) {
         if (jugador === this.jugadorIzquierdo && !this.jugadorIzquierdo.inmune) {
             this.jugadorIzquierdo.velocidadYActual *= 0.7;
@@ -243,6 +261,15 @@ export default class Nivel extends Phaser.Scene {
     recolectarMoneda(jugador, moneda) {
         jugador.recolectarMoneda(moneda.cantidad);
         moneda.destroy();
+    }
+    retrocederAuto(jugador, barrera) {
+        jugador.velocidadYActual *= 0.8;
+        console.log("colision barrera");
+        this.advertenciaTexto.setVisible(true);
+        this.time.delayedCall(3000, () => {
+            this.advertenciaTexto.setVisible(false);
+        });
+
     }
 
     // Método para manejar el evento de tiempo agotado
