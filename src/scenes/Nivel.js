@@ -191,41 +191,40 @@ export default class Nivel extends Phaser.Scene {
     }
 
     collisionLava(jugador) {
+        let jugadorLocal;
+    
         if (jugador === this.jugadorIzquierdo && !this.jugadorIzquierdo.inmune) {
-            this.jugadorIzquierdo.velocidadYActual *= 0.7;
-            this.time.addEvent({
-                delay: 800,
-                callback: () => {
-                    this.jugadorIzquierdo.inmune = true;
-                },
-                callbackScope: this
-            });
-
-            this.time.addEvent({
-                delay: 1000,
-                callback: () => {
-                    this.jugadorIzquierdo.inmune = false;
-                },
-                callbackScope: this
-            });
+            jugadorLocal = this.jugadorIzquierdo;
         } else if (jugador === this.jugadorDerecho && !this.jugadorDerecho.inmune) {
-            this.jugadorDerecho.velocidadYActual *= 0.7;
-            this.time.addEvent({
-                delay: 800,
-                callback: () => {
-                    this.jugadorDerecho.inmune = true;
-                },
-                callbackScope: this
-            });
-            this.time.addEvent({
-                delay: 1000,
-                callback: () => {
-                    this.jugadorDerecho.inmune = false;
-                },
-                callbackScope: this
-            });
+            jugadorLocal = this.jugadorDerecho;
+        } else {
+            return;
         }
+    
+        jugadorLocal.velocidadYActual *= 0.7;
+    
+        // Hacer al jugador inmune por un período de tiempo
+        this.time.addEvent({
+            delay: 800,
+            callback: () => {
+                jugadorLocal.inmune = true;
+            },
+            callbackScope: this
+        });
+    
+        this.time.addEvent({
+            delay: 1000,
+            callback: () => {
+                jugadorLocal.inmune = false;
+            },
+            callbackScope: this
+        });
+    
+        // Cambiar la textura del jugador a la versión dañada con animación
+        jugadorLocal.cambiarTexturaDanada();
     }
+    
+    
     collisionObstaculo(jugador, obstaculo) {
         if (obstaculo.exploto) return;
         const jugadorLocal = jugador;

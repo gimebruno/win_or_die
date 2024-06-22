@@ -15,6 +15,7 @@ export default class Jugador extends Phaser.Physics.Arcade.Sprite {
     velocidadYActual; 
     velocidadYMinima;
     velocidadYMaxima;
+    autoSeleccionado; 
 
     constructor(scene, x, y, texture, ladoEquipo) {
         super(scene, x, y, texture);
@@ -35,11 +36,33 @@ export default class Jugador extends Phaser.Physics.Arcade.Sprite {
         this.velocidadYMaxima = 398; 
         this.colisionado = false;
         this.inmune = false;
+        this.autoSeleccionado = texture; 
         
+        // Crear animaciones
+        this.crearAnimaciones();
+
         // Suscribir métodos
         this.recibirImpacto = this.recibirImpacto.bind(this);
         this.recolectarMoneda = this.recolectarMoneda.bind(this);
         this.mover = this.mover.bind(this);
+    }
+
+    crearAnimaciones() {
+        if (this.autoSeleccionado === 'auto1') {
+            this.scene.anims.create({
+                key: 'auto1s',
+                frames: this.scene.anims.generateFrameNumbers('auto1s', { start: 0, end: 4 }), 
+                frameRate: 10,
+                repeat: -1 
+            });
+        } else if (this.autoSeleccionado === 'auto2') {
+            this.scene.anims.create({
+                key: 'auto2s',
+                frames: this.scene.anims.generateFrameNumbers('auto2danyado', { start: 0, end: 4 }), 
+                frameRate: 10,
+                repeat: -1 
+            });
+        }
     }
 
     recibirImpacto() {
@@ -69,8 +92,14 @@ export default class Jugador extends Phaser.Physics.Arcade.Sprite {
 
         if (controles.left.isDown) {
             this.setAngle(this.angle - this.incrementoAngulo);
+            if (this.autoSeleccionado === 'auto1') {
+                this.setTexture('auto1i');
+            }
         } else if (controles.right.isDown) {
             this.setAngle(this.angle + this.incrementoAngulo);
+            if (this.autoSeleccionado === 'auto1') {
+                this.setTexture('auto1d');
+            }
         }
 
         // Mantener el ángulo dentro de los límites
@@ -104,5 +133,13 @@ export default class Jugador extends Phaser.Physics.Arcade.Sprite {
 
         // Emitir evento de velocidad cambiada
         events.emit('velocidad-cambiada', this.ladoEquipo, this.velocidadYActual);
+    }
+
+    cambiarTexturaDanada() {
+        if (this.autoSeleccionado === 'auto1') {
+            this.anims.play('auto1s', true);
+        } else if (this.autoSeleccionado === 'auto2') {
+            this.anims.play('auto2s', true);
+        }
     }
 }

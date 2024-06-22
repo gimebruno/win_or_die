@@ -13,6 +13,13 @@ export default class PantallaCarga extends Phaser.Scene {
 
         // Autos
         this.load.image('auto1', 'assets/sprites/autos/auto1.png');
+        this.load.image('auto1i', 'assets/sprites/autos/auto1i.png');
+        this.load.image('auto1d', 'assets/sprites/autos/auto1d.png');
+        this.load.spritesheet("auto1s", "./assets/sprites/autos/auto1s.png", {
+            frameWidth: 95,
+            frameHeight: 126,
+        });        
+        //this.load.image('auto1s', 'assets/sprites/autos/auto1s.png');
         this.load.image('auto2', 'assets/sprites/autos/auto2.png');
         this.load.image('auto3', 'assets/sprites/autos/auto3.png');
         this.load.image('auto4', 'assets/sprites/autos/auto4.png');
@@ -59,6 +66,13 @@ export default class PantallaCarga extends Phaser.Scene {
             frames: this.anims.generateFrameNumbers('bola-fuego-spritesheet', { start: 0, end: 1 }),
             frameRate: 10,
             repeat: 1
+        });
+
+        this.anims.create({
+            key: 'auto1s',
+            frames: this.anims.generateFrameNumbers('auto1s', { start: 0, end: 4 }), 
+            frameRate: 10,
+            repeat: -1 
         });
     }
 
