@@ -37,32 +37,11 @@ export default class Jugador extends Phaser.Physics.Arcade.Sprite {
         this.colisionado = false;
         this.inmune = false;
         this.autoSeleccionado = texture; 
-        
-        // Crear animaciones
-        this.crearAnimaciones();
 
         // Suscribir métodos
         this.recibirImpacto = this.recibirImpacto.bind(this);
         this.recolectarMoneda = this.recolectarMoneda.bind(this);
         this.mover = this.mover.bind(this);
-    }
-
-    crearAnimaciones() {
-        if (this.autoSeleccionado === 'auto1') {
-            this.scene.anims.create({
-                key: 'auto1s',
-                frames: this.scene.anims.generateFrameNumbers('auto1s', { start: 0, end: 4 }), 
-                frameRate: 10,
-                repeat: -1 
-            });
-        } else if (this.autoSeleccionado === 'auto2') {
-            this.scene.anims.create({
-                key: 'auto2s',
-                frames: this.scene.anims.generateFrameNumbers('auto2danyado', { start: 0, end: 4 }), 
-                frameRate: 10,
-                repeat: -1 
-            });
-        }
     }
 
     recibirImpacto() {
@@ -94,11 +73,23 @@ export default class Jugador extends Phaser.Physics.Arcade.Sprite {
             this.setAngle(this.angle - this.incrementoAngulo);
             if (this.autoSeleccionado === 'auto1') {
                 this.setTexture('auto1i');
+            } else if (this.autoSeleccionado === 'auto2') {
+                this.setTexture('auto2i');
+            } else if (this.autoSeleccionado === 'auto3') {
+                this.setTexture('auto3i');
+            }else if (this.autoSeleccionado === 'auto4') {
+                this.setTexture('auto4i');
             }
         } else if (controles.right.isDown) {
             this.setAngle(this.angle + this.incrementoAngulo);
             if (this.autoSeleccionado === 'auto1') {
                 this.setTexture('auto1d');
+            } else if (this.autoSeleccionado === 'auto2') {
+                this.setTexture('auto2d');
+            } else if (this.autoSeleccionado === 'auto3') {
+                this.setTexture('auto3d');
+            }else if (this.autoSeleccionado === 'auto4') {
+                this.setTexture('auto4d');
             }
         }
 
@@ -140,6 +131,10 @@ export default class Jugador extends Phaser.Physics.Arcade.Sprite {
             this.anims.play('auto1s', true);
         } else if (this.autoSeleccionado === 'auto2') {
             this.anims.play('auto2s', true);
+        } else if (this.autoSeleccionado === 'auto3') {
+            this.anims.play('auto3s', true);
+        } else if (this.autoSeleccionado === 'auto4') {
+            this.anims.play('auto4s', true);
         }
     }
 }
