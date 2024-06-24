@@ -77,8 +77,12 @@ export default class Jugador extends Phaser.Physics.Arcade.Sprite {
                 this.setTexture('auto2i');
             } else if (this.autoSeleccionado === 'auto3') {
                 this.setTexture('auto3i');
-            }else if (this.autoSeleccionado === 'auto4') {
+            } else if (this.autoSeleccionado === 'auto4') {
                 this.setTexture('auto4i');
+            } else if (this.autoSeleccionado === 'auto5') {
+                this.setTexture('auto5i');
+            } else if (this.autoSeleccionado === 'auto6') {
+                this.setTexture('auto6i');
             }
         } else if (controles.right.isDown) {
             this.setAngle(this.angle + this.incrementoAngulo);
@@ -88,8 +92,12 @@ export default class Jugador extends Phaser.Physics.Arcade.Sprite {
                 this.setTexture('auto2d');
             } else if (this.autoSeleccionado === 'auto3') {
                 this.setTexture('auto3d');
-            }else if (this.autoSeleccionado === 'auto4') {
+            } else if (this.autoSeleccionado === 'auto4') {
                 this.setTexture('auto4d');
+            } else if (this.autoSeleccionado === 'auto5') {
+                this.setTexture('auto5d');
+            } else if (this.autoSeleccionado === 'auto6') {
+                this.setTexture('auto6d');
             }
         }
 
@@ -135,6 +143,10 @@ export default class Jugador extends Phaser.Physics.Arcade.Sprite {
             this.anims.play('auto3s', true);
         } else if (this.autoSeleccionado === 'auto4') {
             this.anims.play('auto4s', true);
+        } else if (this.autoSeleccionado === 'auto5') {
+            this.anims.play('auto5s', true);
+        } else if (this.autoSeleccionado === 'auto6') {
+            this.anims.play('auto6s', true);
         }
     }
 }

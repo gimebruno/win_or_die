@@ -41,7 +41,19 @@ export default class PantallaCarga extends Phaser.Scene {
             frameHeight: 177,
         });  
         this.load.image('auto5', 'assets/sprites/autos/auto5.png');
+        this.load.image('auto5i', 'assets/sprites/autos/auto5i.png');
+        this.load.image('auto5d', 'assets/sprites/autos/auto5d.png');
+        this.load.spritesheet("auto5s", "./assets/sprites/autos/auto5s.png", {
+            frameWidth: 128.8,
+            frameHeight: 165,
+        }); 
         this.load.image('auto6', 'assets/sprites/autos/auto6.png');
+        this.load.image('auto6i', 'assets/sprites/autos/auto6i.png');
+        this.load.image('auto6d', 'assets/sprites/autos/auto6d.png');
+        this.load.spritesheet("auto6s", "./assets/sprites/autos/auto6s.png", {
+            frameWidth: 130,
+            frameHeight: 165,
+        }); 
 
         // Bolas de fuego
         this.load.image('bola-fuego', 'assets/sprites/bola-fuego.png');
@@ -104,6 +116,18 @@ export default class PantallaCarga extends Phaser.Scene {
         this.anims.create({
             key: 'auto4s',
             frames: this.anims.generateFrameNumbers('auto4s', { start: 0, end: 4 }), 
+            frameRate: 10,
+            repeat: -1 
+        });
+        this.anims.create({
+            key: 'auto5s',
+            frames: this.anims.generateFrameNumbers('auto5s', { start: 0, end: 4 }), 
+            frameRate: 10,
+            repeat: -1 
+        });
+        this.anims.create({
+            key: 'auto6s',
+            frames: this.anims.generateFrameNumbers('auto6s', { start: 0, end: 4 }), 
             frameRate: 10,
             repeat: -1 
         });
