@@ -26,16 +26,17 @@ export default class PantallaFinRonda extends Phaser.Scene {
 
     create() {
         this.add.image(0, 0, 'fondo').setOrigin(0);
+        this.add.image((this.scale.width / 2), this.scale.height / 2, 'contenedor-ganador').setOrigin(0.5);
         this.add.text((this.scale.width / 2), (this.scale.height / 2) - 310, "Ronda completada", { fontSize: '80px', fontStyle: 'bold', color: 'white', fontFamily: 'AnyMale', stroke: 'black', strokeThickness: 6 }).setOrigin(0.5);
 
         if (this.empate) {
-            this.add.text((this.scale.width / 2), 200, "Empate", { fontFamily: 'Arial', fontSize: 40, color: '#ffffff' }).setOrigin(0.5);
+            this.add.text((this.scale.width / 2), 175, "EMPATE", { fontFamily: 'Montserrat', fontSize: 40, fontStyle: 'bold', color: '#ffffff' }).setOrigin(0.5);
         } else {
-            this.add.text((this.scale.width / 2), 200, "Ganador", { fontFamily: 'Arial', fontSize: 40, color: '#ffffff' }).setOrigin(0.5);
+            this.add.text((this.scale.width / 2), 175, "GANADOR", { fontFamily: 'Montserrat', fontSize: 40, fontStyle: 'bold', color: '#ffffff' }).setOrigin(0.5);
             if (this.ganador && this.ganador.textura) {
-                this.add.image((this.scale.width / 2), 250, this.ganador.textura).setOrigin(0.5);
-                this.add.text((this.scale.width / 2), 300, `puntos ${this.ganador.monedas}`, { fontFamily: 'Arial', fontSize: 40, color: '#ffffff' }).setOrigin(0.5);
-                this.add.text((this.scale.width / 2), 350, `Rondas ganadas ${this.ganador.numeroRondasGanadas}`, { fontFamily: 'Arial', fontSize: 40, color: '#ffffff' }).setOrigin(0.5);
+                this.add.image((this.scale.width / 2), 300, this.ganador.textura).setOrigin(0.5);
+                this.add.text((this.scale.width / 2), 450, `PUNTOS: ${this.ganador.monedas}`, { fontFamily: 'Montserrat', fontSize: 20, color: '#ffffff' }).setOrigin(0.5);
+                this.add.text((this.scale.width / 2), 480, `RONDAS GANADAS: ${this.ganador.numeroRondasGanadas}`, { fontFamily: 'Montserrat', fontSize: 20, color: '#ffffff' }).setOrigin(0.5);
             } else {
                 console.error('Ganador o textura no definida');
             }
@@ -54,7 +55,7 @@ export default class PantallaFinRonda extends Phaser.Scene {
             }
         };
 
-        new Boton(this, this.scale.width / 2, (this.scale.height / 2) + 200, 'Siguiente Ronda', startNextLevel, 1, 50, 'fondo-boton');
+        new Boton(this, this.scale.width / 2, (this.scale.height / 2) + 300, 'Siguiente Ronda', startNextLevel, 1, 50, 'fondo-boton');
         this.input.keyboard.on('keydown-ENTER', startNextLevel);
     }
 }
