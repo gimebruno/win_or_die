@@ -192,7 +192,7 @@ export default class Nivel extends Phaser.Scene {
 
     collisionLava(jugador) {
         let jugadorLocal;
-    
+
         if (jugador === this.jugadorIzquierdo && !this.jugadorIzquierdo.inmune) {
             jugadorLocal = this.jugadorIzquierdo;
         } else if (jugador === this.jugadorDerecho && !this.jugadorDerecho.inmune) {
@@ -200,9 +200,9 @@ export default class Nivel extends Phaser.Scene {
         } else {
             return;
         }
-    
+
         jugadorLocal.velocidadYActual *= 0.7;
-    
+
         // Hacer al jugador inmune por un período de tiempo
         this.time.addEvent({
             delay: 800,
@@ -211,7 +211,7 @@ export default class Nivel extends Phaser.Scene {
             },
             callbackScope: this
         });
-    
+
         this.time.addEvent({
             delay: 1000,
             callback: () => {
@@ -219,12 +219,12 @@ export default class Nivel extends Phaser.Scene {
             },
             callbackScope: this
         });
-    
+
         // Cambiar la textura del jugador a la versión dañada con animación
         jugadorLocal.cambiarTexturaDanada();
     }
-    
-    
+
+
     collisionObstaculo(jugador, obstaculo) {
         if (obstaculo.exploto) return;
         const jugadorLocal = jugador;
