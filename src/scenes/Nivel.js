@@ -20,6 +20,7 @@ export default class Nivel extends Phaser.Scene {
     monedasEquipoIzquierda = 0;
     monedasEquipoDerecha = 0;
 
+
     constructor() {
         super("Nivel");
         this.maxNivel = 4;
@@ -53,7 +54,6 @@ export default class Nivel extends Phaser.Scene {
         const todosMonedas = objectsLayer.objects.filter(obj => obj.type === "moneda");
         const todosMetas = objectsLayer.objects.filter(obj => obj.type === "meta");
         const barrera = objectsLayer.objects.filter(obj => obj.type === "barrera");
-
         this.jugadorIzquierdo = new Jugador(this, spawnJugador1.x, spawnJugador1.y, this.autoJugador1, "izquierda");
         this.jugadorDerecho = new Jugador(this, spawnJugador2.x, spawnJugador2.y, this.autoJugador2, "derecha");
 
@@ -112,10 +112,7 @@ export default class Nivel extends Phaser.Scene {
             this.barrera.add(barreraPhysics);
         }
         barrera.visible = false;
-        this.advertenciaTexto = this.add.text(300, 200, 'Vuelve a la ruta!!', {
-            fontSize: '120px',
-        }).setOrigin(0.5);
-        this.advertenciaTexto.setVisible(false);
+
         // Configuracion de las colisiones:
         this.physics.add.overlap(this.jugadorIzquierdo, this.lavaGrupo, this.collisionLava, null, this);
         this.physics.add.overlap(this.jugadorDerecho, this.lavaGrupo, this.collisionLava, null, this);
@@ -152,6 +149,9 @@ export default class Nivel extends Phaser.Scene {
 
         this.scene.launch("ui", { tiempo: (this.map.heightInPixels / this.jugadorIzquierdo.velocidadInicialY) * -0.75 });
         events.on("findetiempo", this.handleFinTiempo, this);
+
+        events.on("inicio-carrera", this.iniciarCarrera, this);
+
     }
 
     update() {
@@ -162,6 +162,10 @@ export default class Nivel extends Phaser.Scene {
         if (Phaser.Geom.Intersects.RectangleToRectangle(this.jugadorIzquierdo.getBounds(), this.jugadorDerecho.getBounds())) {
             this.collisionJugadores(this.jugadorIzquierdo, this.jugadorDerecho);
         }
+    }
+    iniciarCarrera() {
+        this.jugadorIzquierdo.puedeMoverse = true;
+        this.jugadorDerecho.puedeMoverse = true;
     }
 
     collisionJugadores(jugador1, jugador2) {
@@ -264,10 +268,10 @@ export default class Nivel extends Phaser.Scene {
     retrocederAuto(jugador, barrera) {
         jugador.velocidadYActual *= 0.8;
         console.log("colision barrera");
-        this.advertenciaTexto.setVisible(true);
-        this.time.delayedCall(3000, () => {
-            this.advertenciaTexto.setVisible(false);
-        });
+        /* this.advertenciaTexto.setVisible(true);
+         this.time.delayedCall(3000, () => {
+             this.advertenciaTexto.setVisible(false);
+         });*/
 
     }
 

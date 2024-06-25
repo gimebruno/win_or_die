@@ -1,10 +1,17 @@
 import Phaser from "phaser";
 import events from "./EventCenter";
+import Jugador from "../objetos/Jugador";
 
 export default class UI extends Phaser.Scene {
   tiempoInicial;
   contadorTiempo;
   temporizadorTexto;
+  inicioCarrera;
+  contadorBandera;
+  contadorBanderaTexto;
+  inicioCarrera = false;
+  banderaEvent;
+  tiempoEvent;
 
   constructor() {
     super("ui");
@@ -29,12 +36,30 @@ export default class UI extends Phaser.Scene {
         fill: true,
       },
     }).setOrigin(0.5);
+    this.inicioCarrera = 3;
+    this.contadorBandera = this.inicioCarrera;
+    this.contadorBanderaTexto = this.add.text(this.scale.width / 2, this.scale.height / 2, `${this.contadorBandera}`, {
+      fontFamily: "AlarmClock",
+      fontStyle: "bold",
+      fontSize: "60px",
+      color: "#ffff00",
+      strokeThickness: 2,
+      stroke: "#b13208",
+      shadow: {
+        offsetX: 0,
+        offsetY: 0,
+        color: "#b13208",
+        blur: 16,
+        stroke: true,
+        fill: true,
+      },
+    }).setOrigin(0.5);
   }
 
   create() {
-    this.time.addEvent({
+    this.banderaEvent = this.time.addEvent({
       delay: 1000,
-      callback: this.actualizarTiempo,
+      callback: this.actualizarBandera,
       callbackScope: this,
       loop: true,
     });
@@ -42,7 +67,7 @@ export default class UI extends Phaser.Scene {
     events.on("collider-event", this.colliderEvent, this);
     this.crearTemporizador();
     this.crearContadoresMonedas();
-    this.crearIndicadoresVelocidad(); // Añadir esta línea
+    this.crearIndicadoresVelocidad();
 
     events.on("moneda-recolectada", (ladoEquipo, numero) => {
       if (ladoEquipo === "izquierda") {
@@ -52,9 +77,7 @@ export default class UI extends Phaser.Scene {
       }
     });
 
-    // Escuchar el evento de velocidad cambiada
     events.on("velocidad-cambiada", (ladoEquipo, velocidad) => {
-      // Limitar la velocidad a dos decimales
       velocidad = parseFloat(velocidad).toFixed(2);
 
       if (ladoEquipo === "izquierda") {
@@ -187,7 +210,28 @@ export default class UI extends Phaser.Scene {
     this.contadorTiempo -= 1;
     this.temporizadorTexto.setText(`${this.contadorTiempo}`);
     if (this.contadorTiempo === 0) {
-        events.emit("findetiempo");
+      events.emit("findetiempo");
+    }
+  }
+
+  actualizarBandera() {
+    this.contadorBandera -= 1;
+    this.contadorBanderaTexto.setText(`${this.contadorBandera}`);
+    if (this.contadorBandera === 0) {
+      this.inicioCarrera = true;
+      this.contadorBanderaTexto.setVisible(false); // Cambiado a método
+      events.emit("inicio-carrera"); // Emitir un evento en lugar de usar this.jugador
+
+      // Detener el evento de actualizarBandera
+      this.banderaEvent.remove();
+
+      // Iniciar el evento de actualizarTiempo
+      this.tiempoEvent = this.time.addEvent({
+        delay: 1000,
+        callback: this.actualizarTiempo,
+        callbackScope: this,
+        loop: true,
+      });
     }
   }
 }

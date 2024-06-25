@@ -12,10 +12,10 @@ export default class Jugador extends Phaser.Physics.Arcade.Sprite {
     anguloMaximo;
     inmune;
     incrementoAngulo;
-    velocidadYActual; 
+    velocidadYActual;
     velocidadYMinima;
     velocidadYMaxima;
-    autoSeleccionado; 
+    autoSeleccionado;
 
     constructor(scene, x, y, texture, ladoEquipo) {
         super(scene, x, y, texture);
@@ -25,18 +25,18 @@ export default class Jugador extends Phaser.Physics.Arcade.Sprite {
         this.setCollideWorldBounds(true);
         this.body.setAllowGravity(false);
         this.ladoEquipo = ladoEquipo;
-        this.puedeMoverse = true;
+        this.puedeMoverse = false;
         this.monedas = 0;
         this.numeroRondasGanadas = 0;
         this.textura = texture;
         this.anguloMaximo = 360;
         this.incrementoAngulo = 1;
-        this.velocidadYActual = 0; 
-        this.velocidadYMinima = 0; 
-        this.velocidadYMaxima = 398; 
+        this.velocidadYActual = 0;
+        this.velocidadYMinima = 0;
+        this.velocidadYMaxima = 398;
         this.colisionado = false;
         this.inmune = false;
-        this.autoSeleccionado = texture; 
+        this.autoSeleccionado = texture;
 
         // Suscribir métodos
         this.recibirImpacto = this.recibirImpacto.bind(this);
