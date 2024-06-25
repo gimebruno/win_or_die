@@ -64,7 +64,10 @@ export default class PantallaCarga extends Phaser.Scene {
         });
 
         //Lava
-        this.load.image('bola-fuego', 'assets/sprites/bola-fuego.png');
+        this.load.image('tierra', 'assets/sprites/tierra.png');
+        this.load.image('arena', 'assets/sprites/arena.png');
+        this.load.image('fuego', 'assets/sprites/fuego.png');
+        this.load.image('hielo', 'assets/sprites/hielo.png');
 
         // tilemap
         this.load.tilemapTiledJSON("nivel1", "assets/tilemap/nivel1.json");

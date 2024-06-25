@@ -89,9 +89,10 @@ export default class Nivel extends Phaser.Scene {
         // crear los obstaculos en el mapa, usando las clase de BolaFuego
         for (let i = 0; i < todosObsculos.length; i += 1) {
             const obstaculo = todosObsculos[i];
-            const obstaculoPhysics = new BolaFuego(this, obstaculo.x, obstaculo.y);
+            const obstaculoPhysics = new BolaFuego(this, obstaculo.x, obstaculo.y, this.nivel);
             this.obstaculos.add(obstaculoPhysics);
         }
+
         // Crear las monedas en el mapa usando la clase Moneda
         for (let i = 0; i < todosMonedas.length; i += 1) {
             const moneda = todosMonedas[i];
