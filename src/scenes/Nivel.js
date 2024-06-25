@@ -134,12 +134,14 @@ export default class Nivel extends Phaser.Scene {
             right: Phaser.Input.Keyboard.KeyCodes.D
         });
         this.physics.world.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels);
+
         // Configuracion de las camaras:
         this.camaraIzquierdo = this.cameras.main.setSize(this.scale.width / 2, this.scale.height);
         this.camaraIzquierdo.scrollX = 0;
         this.camaraIzquierdo.scrollY = 0;
         this.camaraIzquierdo.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels);
         this.camaraIzquierdo.startFollow(this.jugadorIzquierdo, true, 0.05, 0.05);
+        
         // Ajustes en los límites y la configuración de la cámara derecha
         this.camaraDerecha = this.cameras.add(this.scale.width / 2, 0, this.scale.width / 2, this.scale.height);
         this.camaraDerecha.scrollX = this.map.widthInPixels / 2;
@@ -154,7 +156,7 @@ export default class Nivel extends Phaser.Scene {
 
     }
 
-    update() {
+    update(time, delta) {
         this.jugadorDerecho.mover(this.controlesDerechos);
         this.jugadorIzquierdo.mover(this.controlesIzquierdos);
 
@@ -162,7 +164,15 @@ export default class Nivel extends Phaser.Scene {
         if (Phaser.Geom.Intersects.RectangleToRectangle(this.jugadorIzquierdo.getBounds(), this.jugadorDerecho.getBounds())) {
             this.collisionJugadores(this.jugadorIzquierdo, this.jugadorDerecho);
         }
+
+        // Actualizar cada instancia de Lava en el grupo
+        this.lavaGrupo.children.iterate((lava) => {
+            if (lava) {
+                lava.update(time, delta);
+            }
+        });
     }
+
     iniciarCarrera() {
         this.jugadorIzquierdo.puedeMoverse = true;
         this.jugadorDerecho.puedeMoverse = true;

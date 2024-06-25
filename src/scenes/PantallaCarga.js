@@ -12,7 +12,6 @@ export default class PantallaCarga extends Phaser.Scene {
         this.load.image('fondo-boton', 'assets/sprites/fondo-boton.png')
         this.load.image('backg-fin-ronda', ' assets/fondos/background-fin-ronda.png')
 
-
         // Autos
         this.load.image('auto1', 'assets/sprites/autos/auto1.png');
         this.load.image('auto1i', 'assets/sprites/autos/auto1i.png');
@@ -57,9 +56,15 @@ export default class PantallaCarga extends Phaser.Scene {
             frameHeight: 165,
         });
 
-        // Bolas de fuego
+        //Remolino
+        this.load.image('lava', 'assets/sprites/lava.png');
+        this.load.spritesheet('lavas', 'assets/sprites/lavas.png', { 
+            frameWidth: 129, 
+            frameHeight: 168 
+        });
+
+        //Lava
         this.load.image('bola-fuego', 'assets/sprites/bola-fuego.png');
-        this.load.spritesheet('bola-fuego-spritesheet', 'assets/sprites/bola-fuego-spritesheet.png', { frameWidth: 32, frameHeight: 32 });
 
         // tilemap
         this.load.tilemapTiledJSON("nivel1", "assets/tilemap/nivel1.json");
@@ -74,7 +79,6 @@ export default class PantallaCarga extends Phaser.Scene {
         this.load.image('backgrounds', 'assets/atlas/backgrounds-mapas.png');
 
         this.load.image("moneda", "assets/sprites/moneda.png");
-        this.load.image('lava', 'assets/sprites/lava.png');
         this.load.image('meta', 'assets/sprites/meta.png');
 
         this.load.image('botonWAD', 'assets/sprites/botonWAD.png');
@@ -90,12 +94,11 @@ export default class PantallaCarga extends Phaser.Scene {
     create() {
         this.add.image(0, 0, 'fondo').setOrigin(0);
 
-        // crea la animacion de bola-fuego-spritesheet que tiene dos frames
         this.anims.create({
-            key: 'bola-fuego-animacion',
-            frames: this.anims.generateFrameNumbers('bola-fuego-spritesheet', { start: 0, end: 1 }),
+            key: 'lavas',
+            frames: this.anims.generateFrameNumbers('lavas', { start: 0, end: 4 }),
             frameRate: 10,
-            repeat: 1
+            repeat: -1
         });
 
         this.anims.create({
