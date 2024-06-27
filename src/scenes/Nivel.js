@@ -19,6 +19,8 @@ export default class Nivel extends Phaser.Scene {
     vidasEquipoDerecha = 3;
     monedasEquipoIzquierda = 0;
     monedasEquipoDerecha = 0;
+    metaActiva = false;
+
 
 
     constructor() {
@@ -35,6 +37,8 @@ export default class Nivel extends Phaser.Scene {
         this.autoJugador1 = data.autoJugador1;
         this.autoJugador2 = data.autoJugador2;
         this.ganador = null;
+        this.metaActiva = false;
+
     }
 
     create() {
@@ -54,6 +58,7 @@ export default class Nivel extends Phaser.Scene {
         const todosMonedas = objectsLayer.objects.filter(obj => obj.type === "moneda");
         const todosMetas = objectsLayer.objects.filter(obj => obj.type === "meta");
         const barrera = objectsLayer.objects.filter(obj => obj.type === "barrera");
+        const activadorMeta = objectsLayer.objects.filter(obj => obj.type === "activadorMeta");
         this.jugadorIzquierdo = new Jugador(this, spawnJugador1.x, spawnJugador1.y, this.autoJugador1, "izquierda");
         this.jugadorDerecho = new Jugador(this, spawnJugador2.x, spawnJugador2.y, this.autoJugador2, "derecha");
 
@@ -80,7 +85,10 @@ export default class Nivel extends Phaser.Scene {
             immovable: true,
             allowGravity: false,
         });
-
+        this.activadorMeta = this.physics.add.group({
+            inmovable: true,
+            allowGravity: false,
+        });
         for (let i = 0; i < todasLavas.length; i += 1) {
             const lava = todasLavas[i];
             const lavaPhysics = new Lava(this, lava.x, lava.y);
@@ -92,7 +100,6 @@ export default class Nivel extends Phaser.Scene {
             const obstaculoPhysics = new BolaFuego(this, obstaculo.x, obstaculo.y, this.nivel);
             this.obstaculos.add(obstaculoPhysics);
         }
-
         // Crear las monedas en el mapa usando la clase Moneda
         for (let i = 0; i < todosMonedas.length; i += 1) {
             const moneda = todosMonedas[i];
@@ -113,6 +120,13 @@ export default class Nivel extends Phaser.Scene {
             this.barrera.add(barreraPhysics);
         }
         barrera.visible = false;
+        //activador Meta
+        for (let i = 0; i < activadorMeta.length; i += 1) {
+            const activadorData = activadorMeta[i];
+            const activadorPhysics = this.physics.add.sprite(activadorData.x, activadorData.y, 'activadorMeta');
+            activadorPhysics.setVisible(false);
+            this.activadorMeta.add(activadorPhysics);
+        }
 
         // Configuracion de las colisiones:
         this.physics.add.overlap(this.jugadorIzquierdo, this.lavaGrupo, this.collisionLava, null, this);
@@ -126,6 +140,8 @@ export default class Nivel extends Phaser.Scene {
         this.physics.add.collider(this.jugadorIzquierdo, this.jugadorDerecho, this.collisionJugadores, null, this);
         this.physics.add.overlap(this.jugadorDerecho, this.barrera, this.retrocederAuto, null, this);
         this.physics.add.overlap(this.jugadorIzquierdo, this.barrera, this.retrocederAuto, null, this);
+        this.physics.add.overlap(this.jugadorDerecho, this.activadorMeta, this.activarMeta, null, this);
+        this.physics.add.overlap(this.jugadorIzquierdo, this.activadorMeta, this.activarMeta, null, this);
         // Configuracion de los controles de los jugadores:
         this.controlesDerechos = this.input.keyboard.createCursorKeys();
         this.controlesIzquierdos = this.input.keyboard.addKeys({
@@ -142,7 +158,7 @@ export default class Nivel extends Phaser.Scene {
         this.camaraIzquierdo.scrollY = 0;
         this.camaraIzquierdo.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels);
         this.camaraIzquierdo.startFollow(this.jugadorIzquierdo, true, 0.05, 0.05);
-        
+
         // Ajustes en los límites y la configuración de la cámara derecha
         this.camaraDerecha = this.cameras.add(this.scale.width / 2, 0, this.scale.width / 2, this.scale.height);
         this.camaraDerecha.scrollX = this.map.widthInPixels / 2;
@@ -177,6 +193,16 @@ export default class Nivel extends Phaser.Scene {
     iniciarCarrera() {
         this.jugadorIzquierdo.puedeMoverse = true;
         this.jugadorDerecho.puedeMoverse = true;
+    }
+    activarMeta(jugador, activadorMeta) {
+        this.time.addEvent({
+            delay: 5000,
+            callback: () => {
+                this.metaActiva = true;
+            },
+            callbackScope: this
+        });
+
     }
 
     collisionJugadores(jugador1, jugador2) {
@@ -313,26 +339,29 @@ export default class Nivel extends Phaser.Scene {
     }
 
     establecerGanador(jugador) {
-        if (this.ganador) return;
-        this.ganador = jugador;
-        this.ganador.numeroRondasGanadas += 1;
-        const jugadores = [this.jugadorIzquierdo, this.jugadorDerecho];
-        const jugadorPerdedor = jugadores.find(j => j !== jugador);
-        console.log(`Ganador: ${this.ganador.textura}, Nivel actual: ${this.nivel}`);
+        if (this.metaActiva == true) {
 
-        // Guardar los datos de ambos autos
-        const datosAutos = {
-            autoJugador1: this.autoJugador1,
-            autoJugador2: this.autoJugador2,
-        };
+            if (this.ganador) return;
+            this.ganador = jugador;
+            this.ganador.numeroRondasGanadas += 1;
+            const jugadores = [this.jugadorIzquierdo, this.jugadorDerecho];
+            const jugadorPerdedor = jugadores.find(j => j !== jugador);
+            console.log(`Ganador: ${this.ganador.textura}, Nivel actual: ${this.nivel}`);
 
-        this.scene.stop("ui");
-        this.scene.start("PantallaFinRonda", {
-            ganador: this.ganador,
-            perdedor: jugadorPerdedor,
-            nivel: this.nivel,
-            maxNivel: this.maxNivel,
-            ...datosAutos
-        });
+            // Guardar los datos de ambos autos
+            const datosAutos = {
+                autoJugador1: this.autoJugador1,
+                autoJugador2: this.autoJugador2,
+            };
+
+            this.scene.stop("ui");
+            this.scene.start("PantallaFinRonda", {
+                ganador: this.ganador,
+                perdedor: jugadorPerdedor,
+                nivel: this.nivel,
+                maxNivel: this.maxNivel,
+                ...datosAutos
+            });
+        }
     }
 }

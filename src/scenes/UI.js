@@ -12,6 +12,7 @@ export default class UI extends Phaser.Scene {
   inicioCarrera = false;
   banderaEvent;
   tiempoEvent;
+  metaActiva;
 
   constructor() {
     super("ui");
@@ -37,6 +38,7 @@ export default class UI extends Phaser.Scene {
       },
     }).setOrigin(0.5);
     this.inicioCarrera = 3;
+    this.metaActiva = false;
     this.contadorBandera = this.inicioCarrera;
     this.contadorBanderaTexto = this.add.text(this.scale.width / 2, this.scale.height / 2, `${this.contadorBandera}`, {
       fontFamily: "AlarmClock",
@@ -220,7 +222,7 @@ export default class UI extends Phaser.Scene {
     if (this.contadorBandera === 0) {
       this.inicioCarrera = true;
       this.contadorBanderaTexto.setVisible(false); // Cambiado a método
-      events.emit("inicio-carrera"); // Emitir un evento en lugar de usar this.jugador
+      events.emit("inicio-carrera");
 
       // Detener el evento de actualizarBandera
       this.banderaEvent.remove();
