@@ -11,8 +11,9 @@ export default class BotonAmarillo {
 
         this.rectangle = scene.add.rectangle(0, 0, 320, 90, 0xffff00).setOrigin(0.5);
         this.rectangle.alpha = 0; // Set initial opacity to 0
-
+        this.sonido=scene.sound.add('soundboton')
         this.texto.on("pointerdown", () => {
+            this.sonido.play()
             callback();
         });
 

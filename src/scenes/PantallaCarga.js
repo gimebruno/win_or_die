@@ -91,6 +91,9 @@ export default class PantallaCarga extends Phaser.Scene {
         this.load.image('contenedor-ganador', 'assets/fondos/caja_ganador.png')
 
         this.barraDeCarga();
+        this.load.audio ('soundtrack1','assets/sonidos/soundtrack1.mp3')
+        this.load.audio ('soundboton','assets/sonidos/generales/boton2.mp3')
+        this.load.audio ('flechasonido','assets/sonidos/generales/clickM.mp3')
     }
 
 
