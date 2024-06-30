@@ -44,12 +44,12 @@ export default class Nivel extends Phaser.Scene {
     create() {
         const mapaClave = `nivel${this.nivel}`;
         this.map = this.make.tilemap({ key: mapaClave });
-        const tiled = this.map.addTilesetImage("atlas-lava", "atlas-rutas");
-        const backgroundMapa = this.map.addTilesetImage("background", "backgrounds");
-        this.map.createLayer("background", backgroundMapa);
+        const tiled = this.map.addTilesetImage("atlas-lava", "tilesetmap");
+        const backgroundMapa = this.map.addTilesetImage("background", "tilesetmap");
+        const decoracion = this.map.addTilesetImage("tileset-decoracion", "tilesetdecoration");
+        this.map.createLayer("background", tiled);
         this.map.createLayer("piso", tiled);
-        this.map.createLayer("piso", tiled);
-        this.map.createLayer("decoracion", tiled);
+        this.map.createLayer("decoracion", decoracion);
         const objectsLayer = this.map.getObjectLayer("objetos");
         const spawnJugador1 = objectsLayer.objects.find(obj => obj.name === "jugador1");
         const spawnJugador2 = objectsLayer.objects.find(obj => obj.name === "jugador2");

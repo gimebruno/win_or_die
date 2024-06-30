@@ -12,6 +12,7 @@ export default class PantallaCarga extends Phaser.Scene {
         this.load.image('fondo-boton', 'assets/sprites/fondo-boton.png')
         this.load.image('backg-fin-ronda', ' assets/fondos/background-fin-ronda.png')
 
+
         // Autos
         this.load.image('auto1', 'assets/sprites/autos/auto1.png');
         this.load.image('auto1i', 'assets/sprites/autos/auto1i.png');
@@ -58,9 +59,9 @@ export default class PantallaCarga extends Phaser.Scene {
 
         //Remolino
         this.load.image('lava', 'assets/sprites/lava.png');
-        this.load.spritesheet('lavas', 'assets/sprites/lavas.png', { 
-            frameWidth: 129, 
-            frameHeight: 168 
+        this.load.spritesheet('lavas', 'assets/sprites/lavas.png', {
+            frameWidth: 129,
+            frameHeight: 168
         });
 
         //Lava
@@ -80,6 +81,9 @@ export default class PantallaCarga extends Phaser.Scene {
         this.load.image('atlas-lava2', 'assets/atlas/atlas-lava2.png');
         this.load.image('atlas-rutas', 'assets/atlas/atlas-rutas.png');
         this.load.image('backgrounds', 'assets/atlas/backgrounds-mapas.png');
+        this.load.image('tilesetmap', 'assets/atlas/tileset-mapas.png');
+        this.load.image('tilesetdecoration', 'assets/atlas/tileset-decoracion.png');
+
 
         this.load.image("moneda", "assets/sprites/moneda.png");
         this.load.image('meta', 'assets/sprites/meta.png');
@@ -91,9 +95,9 @@ export default class PantallaCarga extends Phaser.Scene {
         this.load.image('contenedor-ganador', 'assets/fondos/caja_ganador.png')
 
         this.barraDeCarga();
-        this.load.audio ('soundtrack1','assets/sonidos/soundtrack1.mp3')
-        this.load.audio ('soundboton','assets/sonidos/generales/boton2.mp3')
-        this.load.audio ('flechasonido','assets/sonidos/generales/clickM.mp3')
+        this.load.audio('soundtrack1', 'assets/sonidos/soundtrack1.mp3')
+        this.load.audio('soundboton', 'assets/sonidos/generales/boton2.mp3')
+        this.load.audio('flechasonido', 'assets/sonidos/generales/clickM.mp3')
     }
 
 
