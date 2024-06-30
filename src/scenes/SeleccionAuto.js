@@ -9,12 +9,16 @@ export default class SeleccionAuto extends Phaser.Scene {
     }
 
     preload() {
-        for (let i = 1; i <= 8; i += 1) {
+        for (let i = 1; i <= 6; i += 1) {
             this.load.image(`auto${i}`, `assets/autos/auto${i}.png`);
         }
     }
 
+    init(data){
+        this.soundtrack=data.soundtrack
+            }
     create() {
+        this.add.image(0, 0, 'fondo').setOrigin(0);
         const centerX = this.scale.width / 2;
         const centerY = this.scale.height / 2;
 
@@ -88,23 +92,28 @@ export default class SeleccionAuto extends Phaser.Scene {
             strokeThickness: 2
         }).setOrigin(0.5);
 
+        this.flechasonido=this.sound.add('flechasonido')
         flechaArribaPlayer1.on('pointerdown', () => {
-            this.selectedAutoIndexPlayer1 = (this.selectedAutoIndexPlayer1 - 1 + 8) % 8;
+            this.flechasonido.play()
+            this.selectedAutoIndexPlayer1 = (this.selectedAutoIndexPlayer1 - 1 + 6) % 6;
             selectedAutoPlayer1.setTexture(`auto${this.selectedAutoIndexPlayer1 + 1}`);
         });
 
         flechaAbajoPlayer1.on('pointerdown', () => {
-            this.selectedAutoIndexPlayer1 = (this.selectedAutoIndexPlayer1 + 1) % 8;
+            this.flechasonido.play()
+            this.selectedAutoIndexPlayer1 = (this.selectedAutoIndexPlayer1 + 1) % 6;
             selectedAutoPlayer1.setTexture(`auto${this.selectedAutoIndexPlayer1 + 1}`);
         });
 
         flechaArribaPlayer2.on('pointerdown', () => {
-            this.selectedAutoIndexPlayer2 = (this.selectedAutoIndexPlayer2 - 1 + 8) % 8;
+            this.flechasonido.play()
+            this.selectedAutoIndexPlayer2 = (this.selectedAutoIndexPlayer2 - 1 + 6) % 6;
             selectedAutoPlayer2.setTexture(`auto${this.selectedAutoIndexPlayer2 + 1}`);
         });
 
         flechaAbajoPlayer2.on('pointerdown', () => {
-            this.selectedAutoIndexPlayer2 = (this.selectedAutoIndexPlayer2 + 1) % 8;
+            this.flechasonido.play()
+            this.selectedAutoIndexPlayer2 = (this.selectedAutoIndexPlayer2 + 1) % 6;
             selectedAutoPlayer2.setTexture(`auto${this.selectedAutoIndexPlayer2 + 1}`);
         });
 
@@ -113,13 +122,13 @@ export default class SeleccionAuto extends Phaser.Scene {
             const selectedAutoNamePlayer2 = `auto${this.selectedAutoIndexPlayer2 + 1}`;
             this.registry.set('selectedAutoNamePlayer1', selectedAutoNamePlayer1);
             this.registry.set('selectedAutoNamePlayer2', selectedAutoNamePlayer2);
+            this.soundtrack.stop()
 
             this.scene.start('Nivel', {
                 autoJugador1: selectedAutoNamePlayer1,
                 autoJugador2: selectedAutoNamePlayer2
             });
         }, 1, 50);
-        // eslint-disable-next-line no-unused-vars
         const _ = botonSeleccionar;
     }
 }

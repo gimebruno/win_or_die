@@ -12,9 +12,10 @@ export default class Jugador extends Phaser.Physics.Arcade.Sprite {
     anguloMaximo;
     inmune;
     incrementoAngulo;
-    velocidadYActual; // Nueva propiedad para almacenar la velocidad actual
+    velocidadYActual;
     velocidadYMinima;
     velocidadYMaxima;
+    autoSeleccionado;
 
     constructor(scene, x, y, texture, ladoEquipo) {
         super(scene, x, y, texture);
@@ -24,16 +25,19 @@ export default class Jugador extends Phaser.Physics.Arcade.Sprite {
         this.setCollideWorldBounds(true);
         this.body.setAllowGravity(false);
         this.ladoEquipo = ladoEquipo;
-        this.puedeMoverse = true;
+        this.puedeMoverse = false;
         this.monedas = 0;
         this.numeroRondasGanadas = 0;
         this.textura = texture;
         this.anguloMaximo = 360;
         this.incrementoAngulo = 1;
-        this.velocidadYActual = 0; // Inicializar velocidad actual en 0
-        this.velocidadYMinima = 0; // Velocidad mínima en 0
-        this.velocidadYMaxima = 350; // Velocidad máxima permitida
+        this.velocidadYActual = 0;
+        this.velocidadYMinima = 0;
+        this.velocidadYMaxima = 398;
+        this.colisionado = false;
         this.inmune = false;
+        this.autoSeleccionado = texture;
+
         // Suscribir métodos
         this.recibirImpacto = this.recibirImpacto.bind(this);
         this.recolectarMoneda = this.recolectarMoneda.bind(this);
@@ -67,8 +71,34 @@ export default class Jugador extends Phaser.Physics.Arcade.Sprite {
 
         if (controles.left.isDown) {
             this.setAngle(this.angle - this.incrementoAngulo);
+            if (this.autoSeleccionado === 'auto1') {
+                this.setTexture('auto1i');
+            } else if (this.autoSeleccionado === 'auto2') {
+                this.setTexture('auto2i');
+            } else if (this.autoSeleccionado === 'auto3') {
+                this.setTexture('auto3i');
+            } else if (this.autoSeleccionado === 'auto4') {
+                this.setTexture('auto4i');
+            } else if (this.autoSeleccionado === 'auto5') {
+                this.setTexture('auto5i');
+            } else if (this.autoSeleccionado === 'auto6') {
+                this.setTexture('auto6i');
+            }
         } else if (controles.right.isDown) {
             this.setAngle(this.angle + this.incrementoAngulo);
+            if (this.autoSeleccionado === 'auto1') {
+                this.setTexture('auto1d');
+            } else if (this.autoSeleccionado === 'auto2') {
+                this.setTexture('auto2d');
+            } else if (this.autoSeleccionado === 'auto3') {
+                this.setTexture('auto3d');
+            } else if (this.autoSeleccionado === 'auto4') {
+                this.setTexture('auto4d');
+            } else if (this.autoSeleccionado === 'auto5') {
+                this.setTexture('auto5d');
+            } else if (this.autoSeleccionado === 'auto6') {
+                this.setTexture('auto6d');
+            }
         }
 
         // Mantener el ángulo dentro de los límites
@@ -99,5 +129,24 @@ export default class Jugador extends Phaser.Physics.Arcade.Sprite {
 
         this.setVelocityX(velocidadX);
         this.setVelocityY(velocidadYAjustada);
+
+        // Emitir evento de velocidad cambiada
+        events.emit('velocidad-cambiada', this.ladoEquipo, this.velocidadYActual);
+    }
+
+    cambiarTexturaDanada() {
+        if (this.autoSeleccionado === 'auto1') {
+            this.anims.play('auto1s', true);
+        } else if (this.autoSeleccionado === 'auto2') {
+            this.anims.play('auto2s', true);
+        } else if (this.autoSeleccionado === 'auto3') {
+            this.anims.play('auto3s', true);
+        } else if (this.autoSeleccionado === 'auto4') {
+            this.anims.play('auto4s', true);
+        } else if (this.autoSeleccionado === 'auto5') {
+            this.anims.play('auto5s', true);
+        } else if (this.autoSeleccionado === 'auto6') {
+            this.anims.play('auto6s', true);
+        }
     }
 }
