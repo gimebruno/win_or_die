@@ -95,7 +95,6 @@ export default class PantallaCarga extends Phaser.Scene {
         this.load.image('contenedor-ganador', 'assets/fondos/caja_ganador.png')
 
         this.barraDeCarga();
-<<<<<<< HEAD
         this.load.audio ('soundtrack1','assets/sonidos/soundtrack1.mp3')
         this.load.audio ('soundboton','assets/sonidos/generales/boton2.mp3')
         this.load.audio ('flechasonido','assets/sonidos/generales/clickM.mp3')
@@ -107,11 +106,6 @@ export default class PantallaCarga extends Phaser.Scene {
         this.load.audio ('motor2','assets/sonidos/audioautos/motor3.mp3')
         this.load.audio ('motor2','assets/sonidos/audioautos/motor4.mp3')
         
-=======
-        this.load.audio('soundtrack1', 'assets/sonidos/soundtrack1.mp3')
-        this.load.audio('soundboton', 'assets/sonidos/generales/boton2.mp3')
-        this.load.audio('flechasonido', 'assets/sonidos/generales/clickM.mp3')
->>>>>>> 2dc7b29a37d2c8e46be8ae66681188bc9b16324b
     }
 
 
