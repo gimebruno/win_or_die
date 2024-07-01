@@ -91,6 +91,11 @@ export default class PantallaCarga extends Phaser.Scene {
         this.load.image('temporizador-ui', 'assets/sprites/temporizador.png');
         this.load.image('contador-ui', 'assets/sprites/contador.png');
         this.load.image('contenedor-ganador', 'assets/fondos/caja_ganador.png')
+        this.load.image('barrera', 'assets/sprite/marco.png')
+        this.load.image('barreraH', 'assets/sprite/marcoH.png')
+        this.load.image('Linea', 'assets/sprite/lineadivisoria.png')
+        this.load.image('botonAudio', 'assets/sprite/audioB.png')
+
 
         this.barraDeCarga();
         this.load.audio ('soundtrack1','assets/sonidos/soundtrack1.mp3')
