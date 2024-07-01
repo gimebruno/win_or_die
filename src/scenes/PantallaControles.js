@@ -10,6 +10,7 @@ export default class PantallaControles extends Phaser.Scene {
         // Añadir el fondo de la pantalla
         this.add.image(0, 0, 'fondo').setOrigin(0);
 
+
         // Añadir la imagen de controles WASD con el texto "Jugador Izquierdo"
         const wasdImagen = this.add.image(this.scale.width / 2 - 150, this.scale.height / 2 - 100, 'wasd')
             .setOrigin(0.5, 0.5)

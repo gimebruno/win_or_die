@@ -8,66 +8,28 @@ export default class PantallaCarga extends Phaser.Scene {
     preload() {
 
         // Backgrounds
-        this.load.image('fondo', 'assets/fondos/fondo.png')
+        this.load.image('fondo-carga', 'assets/fondos/fondo-carga.jpeg')
+        this.load.image('fondo-menu', 'assets/fondos/fondo-menu.jpeg')
+        this.load.image('fondo-desierto', 'assets/fondos/fondodesierto.jpeg')
         this.load.image('fondo-boton', 'assets/sprites/fondo-boton.png')
         this.load.image('backg-fin-ronda', ' assets/fondos/background-fin-ronda.png')
 
+        this.load.image('fondo-control', 'assets/fondos/fondo-control.png');
+
+
         // Autos
         this.load.image('auto1', 'assets/sprites/autos/auto1.png');
-        this.load.image('auto1i', 'assets/sprites/autos/auto1i.png');
-        this.load.image('auto1d', 'assets/sprites/autos/auto1d.png');
-        this.load.spritesheet("auto1s", "./assets/sprites/autos/auto1s.png", {
-            frameWidth: 95,
-            frameHeight: 126,
-        });
         this.load.image('auto2', 'assets/sprites/autos/auto2.png');
-        this.load.image('auto2i', 'assets/sprites/autos/auto2i.png');
-        this.load.image('auto2d', 'assets/sprites/autos/auto2d.png');
-        this.load.spritesheet("auto2s", "./assets/sprites/autos/auto2s.png", {
-            frameWidth: 95,
-            frameHeight: 127,
-        });
         this.load.image('auto3', 'assets/sprites/autos/auto3.png');
-        this.load.image('auto3i', 'assets/sprites/autos/auto3i.png');
-        this.load.image('auto3d', 'assets/sprites/autos/auto3d.png');
-        this.load.spritesheet("auto3s", "./assets/sprites/autos/auto3s.png", {
-            frameWidth: 123.4,
-            frameHeight: 164,
-        });
         this.load.image('auto4', 'assets/sprites/autos/auto4.png');
-        this.load.image('auto4i', 'assets/sprites/autos/auto4i.png');
-        this.load.image('auto4d', 'assets/sprites/autos/auto4d.png');
-        this.load.spritesheet("auto4s", "./assets/sprites/autos/auto4s.png", {
-            frameWidth: 130.4,
-            frameHeight: 177,
-        });
         this.load.image('auto5', 'assets/sprites/autos/auto5.png');
-        this.load.image('auto5i', 'assets/sprites/autos/auto5i.png');
-        this.load.image('auto5d', 'assets/sprites/autos/auto5d.png');
-        this.load.spritesheet("auto5s", "./assets/sprites/autos/auto5s.png", {
-            frameWidth: 128.8,
-            frameHeight: 165,
-        });
         this.load.image('auto6', 'assets/sprites/autos/auto6.png');
-        this.load.image('auto6i', 'assets/sprites/autos/auto6i.png');
-        this.load.image('auto6d', 'assets/sprites/autos/auto6d.png');
-        this.load.spritesheet("auto6s", "./assets/sprites/autos/auto6s.png", {
-            frameWidth: 130,
-            frameHeight: 165,
-        });
+        this.load.image('auto7', 'assets/sprites/autos/auto7.png');
+        this.load.image('auto8', 'assets/sprites/autos/auto8.png');
 
-        //Remolino
-        this.load.image('lava', 'assets/sprites/lava.png');
-        this.load.spritesheet('lavas', 'assets/sprites/lavas.png', {
-            frameWidth: 129,
-            frameHeight: 168
-        });
-
-        //Lava
-        this.load.image('tierra', 'assets/sprites/tierra.png');
-        this.load.image('arena', 'assets/sprites/arena.png');
-        this.load.image('fuego', 'assets/sprites/fuego.png');
-        this.load.image('hielo', 'assets/sprites/hielo.png');
+        // Bolas de fuego
+        this.load.image('bola-fuego', 'assets/sprites/bola-fuego.png');
+        this.load.spritesheet('bola-fuego-spritesheet', 'assets/sprites/bola-fuego-spritesheet.png', { frameWidth: 32, frameHeight: 32 });
 
         // tilemap
         this.load.tilemapTiledJSON("nivel1", "assets/tilemap/nivel1.json");
@@ -78,19 +40,21 @@ export default class PantallaCarga extends Phaser.Scene {
         // Atlas
         this.load.image('atlas-lava', 'assets/atlas/atlas-lava.png');
         this.load.image('atlas-lava2', 'assets/atlas/atlas-lava2.png');
-        this.load.image('atlas-rutas', 'assets/atlas/atlas-rutas.png');
-        this.load.image('backgrounds', 'assets/atlas/backgrounds-mapas.png');
-        this.load.image('tilesetmap', 'assets/atlas/tileset-mapas.png');
-        this.load.image('tilesetdecoration', 'assets/atlas/tileset-decoracion.png');
+        this.load.image('atlas-rutas','assets/atlas/atlas-rutas.png');
+        this.load.image('backgrounds','assets/atlas/backgrounds-mapas.png');
+
+        
 
 
         this.load.image("moneda", "assets/sprites/moneda.png");
+        this.load.image('lava', 'assets/sprites/lava.png');
         this.load.image('meta', 'assets/sprites/meta.png');
         this.load.image('wasd', 'assets/sprites/wasd.png');
         this.load.image('flechas', 'assets/sprites/flechas.png');
         this.load.image('temporizador-ui', 'assets/sprites/temporizador.png');
         this.load.image('contador-ui', 'assets/sprites/contador.png');
-        this.load.image('contenedor-ganador', 'assets/fondos/caja_ganador.png')
+
+
 
         this.barraDeCarga();
         this.load.audio ('soundtrack1','assets/sonidos/soundtrack1.mp3')
@@ -108,50 +72,14 @@ export default class PantallaCarga extends Phaser.Scene {
 
 
     create() {
-        this.add.image(0, 0, 'fondo').setOrigin(0);
+        this.add.image(0, 0, 'fondo-menu').setOrigin(0);
 
+        // crea la animacion de bola-fuego-spritesheet que tiene dos frames
         this.anims.create({
-            key: 'lavas',
-            frames: this.anims.generateFrameNumbers('lavas', { start: 0, end: 4 }),
+            key: 'bola-fuego-animacion',
+            frames: this.anims.generateFrameNumbers('bola-fuego-spritesheet', { start: 0, end: 1 }),
             frameRate: 10,
-            repeat: -1
-        });
-
-        this.anims.create({
-            key: 'auto1s',
-            frames: this.anims.generateFrameNumbers('auto1s', { start: 0, end: 4 }),
-            frameRate: 10,
-            repeat: -1
-        });
-        this.anims.create({
-            key: 'auto2s',
-            frames: this.anims.generateFrameNumbers('auto2s', { start: 0, end: 4 }),
-            frameRate: 10,
-            repeat: -1
-        });
-        this.anims.create({
-            key: 'auto3s',
-            frames: this.anims.generateFrameNumbers('auto3s', { start: 0, end: 4 }),
-            frameRate: 10,
-            repeat: -1
-        });
-        this.anims.create({
-            key: 'auto4s',
-            frames: this.anims.generateFrameNumbers('auto4s', { start: 0, end: 4 }),
-            frameRate: 10,
-            repeat: -1
-        });
-        this.anims.create({
-            key: 'auto5s',
-            frames: this.anims.generateFrameNumbers('auto5s', { start: 0, end: 4 }),
-            frameRate: 10,
-            repeat: -1
-        });
-        this.anims.create({
-            key: 'auto6s',
-            frames: this.anims.generateFrameNumbers('auto6s', { start: 0, end: 4 }),
-            frameRate: 10,
-            repeat: -1
+            repeat: 1
         });
     }
 
