@@ -43,8 +43,6 @@ export default class Jugador extends Phaser.Physics.Arcade.Sprite {
         this.recibirImpacto = this.recibirImpacto.bind(this);
         this.recolectarMoneda = this.recolectarMoneda.bind(this);
         this.mover = this.mover.bind(this);
-        this.setFixedRotation(false);
-
     }
 
     recibirImpacto() {

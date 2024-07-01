@@ -12,7 +12,6 @@ export default class PantallaCarga extends Phaser.Scene {
         this.load.image('fondo-boton', 'assets/sprites/fondo-boton.png')
         this.load.image('backg-fin-ronda', ' assets/fondos/background-fin-ronda.png')
 
-
         // Autos
         this.load.image('auto1', 'assets/sprites/autos/auto1.png');
         this.load.image('auto1i', 'assets/sprites/autos/auto1i.png');
@@ -87,9 +86,8 @@ export default class PantallaCarga extends Phaser.Scene {
 
         this.load.image("moneda", "assets/sprites/moneda.png");
         this.load.image('meta', 'assets/sprites/meta.png');
-
-        this.load.image('botonWAD', 'assets/sprites/botonWAD.png');
-        this.load.image('botonesFlechas', 'assets/sprites/botonesflechas.png');
+        this.load.image('wasd', 'assets/sprites/wasd.png');
+        this.load.image('flechas', 'assets/sprites/flechas.png');
         this.load.image('temporizador-ui', 'assets/sprites/temporizador.png');
         this.load.image('contador-ui', 'assets/sprites/contador.png');
         this.load.image('contenedor-ganador', 'assets/fondos/caja_ganador.png')
