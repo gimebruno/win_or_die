@@ -12,24 +12,5 @@ export default class Lava extends Phaser.Physics.Arcade.Sprite {
         this.body.setAllowGravity(false);
         this.setImmovable();
         this.setVisible(true);
-
-        // Reproducir la animación
-        this.play('lavas');
-
-        // Configurar el movimiento de lado a lado
-        this.movementSpeed = 100; 
-        this.direction = 1; 
-    }
-
-    update(time, delta) {
-        // Mover la lava de lado a lado
-        this.x += this.direction * this.movementSpeed * delta / 1000;
-
-        // Cambiar la dirección al llegar a los límites
-        if (this.x >= this.scene.scale.width - this.body.width) {
-            this.direction = -1;
-        } else if (this.x <= 0) {
-            this.direction = 1;
-        }
     }
 }

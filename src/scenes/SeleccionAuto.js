@@ -9,13 +9,12 @@ export default class SeleccionAuto extends Phaser.Scene {
     }
 
     preload() {
-        for (let i = 1; i <= 6; i += 1) {
+        for (let i = 1; i <= 8; i += 1) {
             this.load.image(`auto${i}`, `assets/autos/auto${i}.png`);
         }
     }
 
     create() {
-        this.add.image(0, 0, 'fondo').setOrigin(0);
         const centerX = this.scale.width / 2;
         const centerY = this.scale.height / 2;
 
@@ -90,22 +89,22 @@ export default class SeleccionAuto extends Phaser.Scene {
         }).setOrigin(0.5);
 
         flechaArribaPlayer1.on('pointerdown', () => {
-            this.selectedAutoIndexPlayer1 = (this.selectedAutoIndexPlayer1 - 1 + 6) % 6;
+            this.selectedAutoIndexPlayer1 = (this.selectedAutoIndexPlayer1 - 1 + 8) % 8;
             selectedAutoPlayer1.setTexture(`auto${this.selectedAutoIndexPlayer1 + 1}`);
         });
 
         flechaAbajoPlayer1.on('pointerdown', () => {
-            this.selectedAutoIndexPlayer1 = (this.selectedAutoIndexPlayer1 + 1) % 6;
+            this.selectedAutoIndexPlayer1 = (this.selectedAutoIndexPlayer1 + 1) % 8;
             selectedAutoPlayer1.setTexture(`auto${this.selectedAutoIndexPlayer1 + 1}`);
         });
 
         flechaArribaPlayer2.on('pointerdown', () => {
-            this.selectedAutoIndexPlayer2 = (this.selectedAutoIndexPlayer2 - 1 + 6) % 6;
+            this.selectedAutoIndexPlayer2 = (this.selectedAutoIndexPlayer2 - 1 + 8) % 8;
             selectedAutoPlayer2.setTexture(`auto${this.selectedAutoIndexPlayer2 + 1}`);
         });
 
         flechaAbajoPlayer2.on('pointerdown', () => {
-            this.selectedAutoIndexPlayer2 = (this.selectedAutoIndexPlayer2 + 1) % 6;
+            this.selectedAutoIndexPlayer2 = (this.selectedAutoIndexPlayer2 + 1) % 8;
             selectedAutoPlayer2.setTexture(`auto${this.selectedAutoIndexPlayer2 + 1}`);
         });
 
@@ -120,6 +119,7 @@ export default class SeleccionAuto extends Phaser.Scene {
                 autoJugador2: selectedAutoNamePlayer2
             });
         }, 1, 50);
+        // eslint-disable-next-line no-unused-vars
         const _ = botonSeleccionar;
     }
 }
