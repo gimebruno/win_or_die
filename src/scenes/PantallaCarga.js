@@ -12,7 +12,10 @@ export default class PantallaCarga extends Phaser.Scene {
         this.load.image('fondo-menu', 'assets/fondos/fondo-menu.jpeg')
         this.load.image('fondo-desierto', 'assets/fondos/fondodesierto.jpeg')
         this.load.image('fondo-boton', 'assets/sprites/fondo-boton.png')
+        this.load.image('backg-fin-ronda', ' assets/fondos/background-fin-ronda.png')
+
         this.load.image('fondo-control', 'assets/fondos/fondo-control.png');
+
 
         // Autos
         this.load.image('auto1', 'assets/sprites/autos/auto1.png');
@@ -46,15 +49,25 @@ export default class PantallaCarga extends Phaser.Scene {
         this.load.image("moneda", "assets/sprites/moneda.png");
         this.load.image('lava', 'assets/sprites/lava.png');
         this.load.image('meta', 'assets/sprites/meta.png');
-
-        this.load.image('botonWAD', 'assets/sprites/botonWAD.png');
-        this.load.image('botonesFlechas', 'assets/sprites/botonesflechas.png');
+        this.load.image('wasd', 'assets/sprites/wasd.png');
+        this.load.image('flechas', 'assets/sprites/flechas.png');
         this.load.image('temporizador-ui', 'assets/sprites/temporizador.png');
         this.load.image('contador-ui', 'assets/sprites/contador.png');
 
 
 
         this.barraDeCarga();
+        this.load.audio ('soundtrack1','assets/sonidos/soundtrack1.mp3')
+        this.load.audio ('soundboton','assets/sonidos/generales/boton2.mp3')
+        this.load.audio ('flechasonido','assets/sonidos/generales/clickM.mp3')
+        this.load.audio ('vozenoff1','assets/sonidos/obotic-countdown.mp3')
+        this.load.audio ('acelerar','assets/sonidos/audioautos/aceleracion.mp3')
+        this.load.audio ('freno','assets/sonidos/audioautos/frenar.mp3')
+        this.load.audio ('motor1','assets/sonidos/audioautos/motorauto.wav')
+        this.load.audio ('motor2','assets/sonidos/audioautos/motor2.mp3')
+        this.load.audio ('motor2','assets/sonidos/audioautos/motor3.mp3')
+        this.load.audio ('motor2','assets/sonidos/audioautos/motor4.mp3')
+        
     }
 
 
